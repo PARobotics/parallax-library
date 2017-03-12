@@ -11,11 +11,18 @@
 #include "bin/constants.h"
 #include "bin/functions.c"
 #include "bin/sensors.c"
+#include "bin/remote.c"
 #include "bin/slew.c"
 #include "bin/lcd.c"
 
 void initialize(){
-
+  bStopTasksBetweenModes = false;
+  clearTimer(T1);
+  
+  if(USE_REMOTE == 1){
+    set_up_buttons();
+    start_pr_button();
+  }
 }
 
 void autonProcedure(){
@@ -23,9 +30,9 @@ void autonProcedure(){
 	clearTimer(T1);
 
 	if (MODE == AUTO_A) auto_A();
-	if (MODE == AUTO_B) auto_B();
-	if (MODE == AUTO_C) auto_C();
-	if (MODE == PRG_SKILL) prg_skills();
+  else if (MODE == AUTO_B) auto_B();
+	else if (MODE == AUTO_C) auto_C();
+	else if (MODE == PRG_SKILL) prg_skills();
 
 	lcd_message();
 }

@@ -139,23 +139,6 @@ void global_variable_reset() {
 }
 
 void pre_auton(){
-  bStopTasksBetweenModes = false; //Keep tasks between Auton and user control
-
-	// show battery voltage
-	#if DEBUG == YES
-	  writeDebugStreamLine("pre_auton");
-	  writeDebugStreamLine("%%  batt %4.2fv %4.2fv", volt1() / 1000.0, volt2()/1000.0);
-	#endif
-
-  //Initialize Button library
-  // add_pr_button(PR_Btn7R,1,Btn7R);
-  add_pr_button(PR_Btn7U,1,Btn7U);
-  add_pr_button(PR_Btn7D,1,Btn7D);
-  add_pr_button(PR_Btn8L,1,Btn8L);
-  add_pr_button(PR_Btn8U,1,Btn8U);
-  add_pr_button(PR_Btn8R,1,Btn8R);
-  add_pr_button(PR_Btn8D,1,Btn8D);
-  add_pr_button(PR_Btn5U,1,Btn5U);
 
   clearTimer(T1);
   sensor_reset();
@@ -172,10 +155,7 @@ void pre_auton(){
   startTask(MotorSlewRateTask, 7);
   startTask(ss_lift, 7);
   startTask(ss_dump, 7);
-  // we can choose to run PR as a task or as a functio
-#if USE_PR_AS_TASK==1
-  start_pr_button();
-#endif
+]
 }
 
 /*
