@@ -134,28 +134,13 @@ void sensor_reset() {
   wait1Msec(2000);    // necessary for gyro calibration
 }
 
-void global_variable_reset() {
-
-}
 
 void pre_auton(){
-
-  clearTimer(T1);
-  sensor_reset();
-  global_variable_reset();
-  wheel_init();
+  //wheel_init();
 
   claw(CLOSE);
 
-  //LCD
-  lcd_selection();
-  lcd_msg_init();
-
-  //we only start MotorSlewRateTask
-  startTask(MotorSlewRateTask, 7);
-  startTask(ss_lift, 7);
-  startTask(ss_dump, 7);
-]
+  initialize();
 }
 
 /*
@@ -441,9 +426,8 @@ task usercontrol(){
 
     }
 
-		lcd_message();    // do we need to update LCD message in driving, maybe turn it off???
     tlast = tnow;     // update time
-		wait1Msec(WAIT_DT_USERCONTROL);
-		//wait1Msec(10);
+
+		userControlUpdate();
 	}
 }
