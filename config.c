@@ -9,7 +9,7 @@
 //Configure push release
 #define USE_REMOTE    1
 #define NUM_PR_BUTTONS  0 //Only include if using remote
-void set_up_buttons(){ //Only include if using remote
+void setUpButtons(){ //Only include if using remote
 
 }
 

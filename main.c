@@ -18,19 +18,21 @@
 void initialize(){
   bStopTasksBetweenModes = false;
   clearTimer(T1);
-  sensor_reset();
+  sensorReset();
 
-  if(USE_LCD == 1){
-    lcd_selection();
-    lcd_msg_init();
-  }
+  #if USE_LCD == 1
+    lcdSelection();
+    lcdMsgInit();
+  #endif
 
-  if(USE_REMOTE == 1){
-    set_up_buttons();
-    start_pr_button();
-  }
+  #if USE_REMOTE == 1
+    setUpButtons();
+    startPrButton();
+  #endif
 
-  if(USE_SLEW == 1) startTask(MotorSlewRateTask);
+  #if USE_SLEW == 1
+    startTask(MotorSlewRateTask);
+  #endif
 
   preAutonProcedure();
 }
@@ -39,16 +41,20 @@ void autonProcedure(){
   stopTask(usercontrol);
 	clearTimer(T1);
 
-	if (MODE == AUTO_A) auto_A();
-  else if (MODE == AUTO_B) auto_B();
-	else if (MODE == AUTO_C) auto_C();
-	else if (MODE == PRG_SKILL) prg_skills();
+	if (MODE == AUTO_A) autoA();
+  else if (MODE == AUTO_B) autoB();
+	else if (MODE == AUTO_C) autoC();
+	else if (MODE == PRG_SKILL) prgSkills();
 
-	if(USE_LCD == 1) lcd_message();
+	#if USE_LCD == 1
+    lcdMessage();
+  #endif
 }
 
 void userControlUpdate(){
-  if(USE_LCD) lcd_message();
+  #if USE_LCD == 1
+    lcdMessage();
+  #endif
   wait1Msec(50);
 }
 

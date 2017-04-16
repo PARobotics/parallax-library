@@ -14,16 +14,16 @@ string lcdStrMode;             // lcdStr for Mode
 #define RIGHTBUTTON    4
 
 void waitForPress(){
-  while (nLCDButtons == 0) {}
+  while (nLCDButtons == 0){}
   wait1Msec(5);
 }
 
 void waitForRelease(){
-  while (nLCDButtons != 0) {}
+  while (nLCDButtons != 0){}
   wait1Msec(5);
 }
 
-void lcd_selection(){
+void lcdSelection(){
   // clear the LCD and display filler text
   clearLCDLine(0);
   clearLCDLine(1);
@@ -34,17 +34,17 @@ void lcd_selection(){
   displayLCDString(1, 0, lcdStr2);
 
   //Wait for center to be pushed
-  while (nLCDButtons != CENTERBUTTON) {
+  while (nLCDButtons != CENTERBUTTON){
     if (SIDE == LEFT) lcdStr2 = "LEFT  <  RIGHT";
     if (SIDE == RIGHT) lcdStr2 =  "left  >  RIGHT";
     displayLCDCenteredString(1, lcdStr2);
 
     waitForPress();
-    if (nLCDButtons == LEFTBUTTON) {
+    if (nLCDButtons == LEFTBUTTON){
       SIDE = LEFT;
       waitForRelease();
     }
-    if (nLCDButtons == RIGHTBUTTON) {
+    if (nLCDButtons == RIGHTBUTTON){
       SIDE = RIGHT;
       waitForRelease();
     }
@@ -59,48 +59,48 @@ void lcd_selection(){
   wait1Msec(250);
 
   MODE = AUTO_A;
-  lcd_mode_selection();
+  lcdModeSelection();
 }
 
-void lcd_mode_selection(){
+void lcdModeSelection(){
   int t_pushed;
 
   //While not selected:
-  while (nLCDButtons != CENTERBUTTON) {
+  while (nLCDButtons != CENTERBUTTON){
     //Cycle:
     if (MODE < 0) MODE = 6;
     if (MODE > 6) MODE = 0;
-    if (MODE == AUTO_A) lcdStrMode = "Auto_A";
-    if (MODE == AUTO_B) lcdStrMode = "Auto_B";
-    if (MODE == AUTO_C) lcdStrMode = "Auto_C";
-    if (MODE == RBT_SKILL) lcdStrMode = "Drv_Skills";
-    if (MODE == PRG_SKILL) lcdStrMode = "Prg_Skills";
+    if (MODE == AUTO_A) lcdStrMode = "Auto A";
+    if (MODE == AUTO_B) lcdStrMode = "Auto B";
+    if (MODE == AUTO_C) lcdStrMode = "Auto C";
+    if (MODE == RBT_SKILL) lcdStrMode = "Robot Skills";
+    if (MODE == PRG_SKILL) lcdStrMode = "Prog. Skills";
     if (MODE == TESTING) lcdStrMode = "Testing";
     sprintf(lcdStr2, "<<%s %s>>", lcdStrSide, lcdStrMode);
 
     // allow switching between modes
     displayLCDCenteredString(1, lcdStr2);
     waitForPress();
-    if (nLCDButtons == LEFTBUTTON) {
+    if (nLCDButtons == LEFTBUTTON){
       waitForRelease();
       MODE--;
     }
-    if (nLCDButtons == RIGHTBUTTON) {
+    if (nLCDButtons == RIGHTBUTTON){
       waitForRelease();
       MODE++;
     }
 
   }
 
-  lcd_msg_init();
+  lcdMessageInit();
 }
 
-void lcd_msg_init(){
+void lcdMessageInit(){
   sprintf(lcdStr1, "%s %4d", TEAM_NAME, volt1());
   sprintf(lcdStr2, "M%1d %s ", MODE, lcdStrMode);
 }
 
-void lcd_message(){
+void lcdMessage(){
   lcdGenerateMessage();
 
   displayLCDString(0, 0, lcdStr1);

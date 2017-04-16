@@ -40,9 +40,8 @@
 #include "Libs\FuncLib.c"     // basic functions
 #include "Libs\Pid.c"         // pid functions
 // -- Motorlib (slew rate control, timeout, bailout)
-#define MOTOR_USE_SLEW          1     //
-int MOTOR_SLEW[10] =  { 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 };  // has to match motor numbers
-#define MOTOR_SLEW_DELAY        20     //
+
+int MOTOR_SLEW[10] ={ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 };  // has to match motor numbers
 
 #define WAIT_DT_USERCONTROL 10
 #define TURNON  1
@@ -77,13 +76,13 @@ const int NUM_PR_BUTTONS = 8;    // define how many buttons to monitor as PR but
 
 
 // use different slew for driving and skills/auton
-void set_slew(int opt) {
-  if (opt==TURNON) {            // for user_ctrl
-    for ( unsigned  int i=0;i<10;i++) {
+void set_slew(int opt){
+  if (opt==TURNON){            // for user_ctrl
+    for ( unsigned  int i=0;i<10;i++){
       MOTOR_SLEW[i] = 15;
     }
   }
-  else if (opt==TURNOFF) {     // for auton and skills
+  else if (opt==TURNOFF){     // for auton and skills
     // no slew for dumper
     MOTOR_SLEW[1] = 255;
     MOTOR_SLEW[8] = 255;
@@ -99,32 +98,12 @@ void set_slew(int opt) {
   }
 }
 
-void switch_to_skills() {
-  // start tasks need for skills and set global variables corretly
-  set_slew(TURNOFF);
-  startTask(ss_monitor, 9);
-  /*startTask(ss_dump, 9);
-  startTask(ss_lift, 9);*/
-  WHEEL_MONITOR = START;
-  DUMP_MONITOR = START;
-}
-
-void switch_to_usercontrol() {
-  // stop tasks for user controls and set global variables correctly
-  set_slew(TURNON);
-  stopTask(ss_monitor);
-  stopTask(ss_dump);
-  stopTask(ss_lift);
-  WHEEL_MONITOR = STOP;
-  DUMP_MONITOR = STOP;
-}
-
 /*
 PRE AUTONOMOUS
 functions
 */
 
-void sensor_reset() {
+void sensor_reset(){
 	SensorValue(ACC_X) = 0;
 	SensorValue(ACC_Y) = 0;
 	SensorValue(ACC_Z) = 0;
@@ -134,12 +113,7 @@ void sensor_reset() {
   wait1Msec(2000);    // necessary for gyro calibration
 }
 
-
 void pre_auton(){
-  //wheel_init();
-
-  claw(CLOSE);
-
   initialize();
 }
 
@@ -180,7 +154,7 @@ task usercontrol(){
   // if we are doing drving skills, we will first run
   // prg_mv1 and prg_mv2 (only breakable by 7D)
   // make sure it matches ss_auto prgskills
-  if (MODE == RBT_SKILL) {
+  if (MODE == RBT_SKILL){
     switch_to_skills();
     wheel_reset(-SIDE*360, 200, ang_side(-900));
     // initial movement - 4 stars 2 cube
@@ -190,7 +164,7 @@ task usercontrol(){
 
   }
 
-	while (true) {
+	while (true){
     tnow = time1[T1];
     ///////////////////////////////////////////////////////
     // Controls for all modes
@@ -204,7 +178,7 @@ task usercontrol(){
     // handling of dump functions used to be in dump task
   	getDumpVal();
     if(DUMP_VAL > DUMP_RELEASE) claw(OPEN); //Release claw at a certain value
-    if (DUMP_COMMAND==CARRY_USERCONTROL) {
+    if (DUMP_COMMAND==CARRY_USERCONTROL){
       DUMP_OMEGA = (DUMP_VAL - DUMP_LAST_VAL) * 1000 * 60 / 360 / (tnow - tlast); // .1
       dump_carry_usercontrol();
       DUMP_LAST_VAL = DUMP_VAL;     // stash dump_last_val
@@ -231,12 +205,12 @@ task usercontrol(){
     // -- if Btn-5D is pushed, try to upper arm (otherwise will not move)
 		if(vexRT[Btn6U] == 1){
 			// if(SensorValue(P_TRANS) == 0) DUMP_COMMAND = UP;
-			if(SensorValue(P_TRANS) == 0) {
-        if(DUMP_VAL < DUMP_MAX) {
+			if(SensorValue(P_TRANS) == 0){
+        if(DUMP_VAL < DUMP_MAX){
           dumper(127);
           DUMP_COMMAND = UP;
         }
-        else {
+        else{
           dumper(0);
           DUMP_COMMAND = STOP;
         }
@@ -245,7 +219,7 @@ task usercontrol(){
     // -- if Btn-5D is pushed, try to lower arm (otherwise will not move)
 		else if(vexRT[Btn6D] == 1){
 			// if(SensorValue(P_TRANS) == 0) DUMP_COMMAND = DOWN;
-			if(SensorValue(P_TRANS) == 0) {
+			if(SensorValue(P_TRANS) == 0){
         dumper(-127);
         DUMP_COMMAND = DOWN;
       }
@@ -266,13 +240,13 @@ task usercontrol(){
 		if((vexRT[Btn5D] == 1) && (SensorValue(P_TRANS) == 0) ) dump_hold_usercontrol();
 
  // -- if PR-Btn7L is pushed, do one dump and get out at 120 deg
-    // if ((get_pr_button(PR_Btn7L) == 1) && (SensorValue(P_TRANS) == 0)) {
+    // if ((get_pr_button(PR_Btn7L) == 1) && (SensorValue(P_TRANS) == 0)){
 			// one_dump(1200, 1000, 750);
       // DUMP_COMMAND = HOLD;
       // reset_pr_button(PR_Btn7L);
 		// }
     // -- if PR-Btn8U is pushed, claw close and set to CARRY
-    if ((get_pr_button(PR_Btn5U) == 1) && (SensorValue(P_TRANS) == 0)) {
+    if ((get_pr_button(PR_Btn5U) == 1) && (SensorValue(P_TRANS) == 0)){
       claw(CLOSE);
       wait1Msec(50);
       // DUMP_COMMAND = CARRY;
@@ -283,7 +257,7 @@ task usercontrol(){
 		/*
 			CLAW
 		*/
-    if (get_pr_button(PR_Btn8D) == 1) {
+    if (get_pr_button(PR_Btn8D) == 1){
 			claw(TOGGLE);
       DUMP_COMMAND = STOP;     // no more carry holding
       reset_pr_button(PR_Btn8D);
@@ -292,7 +266,7 @@ task usercontrol(){
 		/*
 			LIFT CONTROL
 		*/
-    if (get_pr_button(PR_Btn8L) == 2) {
+    if (get_pr_button(PR_Btn8L) == 2){
 			//Toggle transmission -- has to hold on the button
       //startTask(ss_dump, 9);   // need to be careful if click the button multiple times will it be a problem???
       wait1Msec(20);
@@ -300,7 +274,7 @@ task usercontrol(){
       reset_pr_button(PR_Btn8L);
 		}
 
-    if (MODE != TESTING && get_pr_button(PR_Btn8R) == 1) {
+    if (MODE != TESTING && get_pr_button(PR_Btn8R) == 1){
 			//Put piston up
       SensorValue(P_LIFT) = 1;
       wait1Msec(500);
@@ -310,14 +284,14 @@ task usercontrol(){
 
 
     // add a special PB button for robot skills -- carry hight
-    /*if ((MODE == RBT_SKILL) && (get_pr_button(PR_Btn7U) == 1) && (SensorValue(P_TRANS) == 0)) {
+    /*if ((MODE == RBT_SKILL) && (get_pr_button(PR_Btn7U) == 1) && (SensorValue(P_TRANS) == 0)){
       DUMP_COMMAND = CARRY_HIGH;
       reset_pr_button(PR_Btn7U);
 		}*/
 
     //Lift control only if transmission is set
 		if(vexRT[Btn7U] == 1){
-			if(SensorValue(P_TRANS) == 1) {
+			if(SensorValue(P_TRANS) == 1){
 				SensorValue(P_LIFT) = 1;
       	dumper(-127);
 			}
@@ -349,7 +323,7 @@ task usercontrol(){
     // Controls for testing mode
     ///////////////////////////////////////////////////////
 
-    if (MODE == TESTING) {
+    if (MODE == TESTING){
       // in testing model Btn8R test all 6 dump motors
       int waitT1 , waitT2 , vcmd;
     	// if(get_pr_button(PR_Btn7R) == 1){

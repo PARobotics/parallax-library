@@ -32,9 +32,9 @@
 	FUNCTION WRAPPERS
 */
 
-void auto_A();
-void auto_B();
-void auto_C();
+void autoA();
+void autoB();
+void autoC();
 void prg_skills();
 
 /*
@@ -52,8 +52,8 @@ void prg_skills();
                     	Initialize, LCD, Remote related
                     */
 
-void sensor_reset();
-void global_variable_reset();
+void sensorReset();
+void globalVariableReset();
 
 // LCD
 int  MODE = AUTO_A;
