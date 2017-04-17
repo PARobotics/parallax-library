@@ -7,12 +7,12 @@
   *** Include this file ***
 */
 
-#include "config.c" //You write this file
 #include "bin/constants.h"
+#include "config.c" //You write this file
 #include "bin/functions.c"
 #include "bin/sensors.c"
-#include "bin/remote.c"
-#include "bin/slew.c"
+//#include "bin/remote.c"
+//#include "bin/slew.c"
 #include "bin/lcd.c"
 
 void initialize(){
@@ -22,7 +22,6 @@ void initialize(){
 
   #if USE_LCD == 1
     lcdSelection();
-    lcdMsgInit();
   #endif
 
   #if USE_REMOTE == 1

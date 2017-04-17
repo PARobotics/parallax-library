@@ -1,13 +1,15 @@
 #ifndef CONFIG_C
 #define CONFIG_C
 
+#include "auton.c"
+
 #define USE_LCD       1 //Disable if having LCD reset problems
 
 //Configure slew rate control
-#define USE_SLEW      1 //Recommended, but not necessary
+#define USE_SLEW      0 //Recommended, but not necessary
 
 //Configure push release
-#define USE_REMOTE    1
+#define USE_REMOTE    0
 #define NUM_PR_BUTTONS  0 //Only include if using remote
 void setUpButtons(){ //Only include if using remote
 
@@ -18,11 +20,17 @@ void preAutonProcedure(){
   //This code runs during preauton
 }
 
+//Configure LCD
 #define TEAM_NAME     "8900"
 
 void lcdGenerateMessage(){
-  sprintf(lcdStr1, "8900 %4.1fV %4.1fV", volt1() / 1000.0, volt2() / 1000.0);
-  sprintf(lcdStr2, "Message goes here");
+  sprintf(lcdStr1, "8900 %4.1fV %4.1fV", getMainBatteryVoltage() / 1000.0, getSecondBatteryVoltage() / 1000.0);
+  sprintf(lcdStr2, "Parallax");
+}
+
+
+void sensorReset(){
+
 }
 
 #endif

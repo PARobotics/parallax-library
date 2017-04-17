@@ -22,10 +22,9 @@
 #define AUTO_A          0
 #define AUTO_B          1
 #define AUTO_C          2
-#define AUTO_D          3
-#define PRG_SKILL       4
-#define RBT_SKILL       5
-#define TESTING         6
+#define PRG_SKILL       3
+#define RBT_SKILL       4
+#define TESTING         5
 #define TOGGLE          2
 
 /*
@@ -57,7 +56,7 @@ void globalVariableReset();
 
 // LCD
 int  MODE = AUTO_A;
-int  SIDE = REDSIDE;         // Blue or Red side that is selected
+int  SIDE = LEFT;         // Blue or Red side that is selected
 int  t_push_center;          // Time used to track long press mid button
 
 string  lcdStr1;                // hold the 16 character string for LCD line 1
@@ -143,5 +142,22 @@ drv_train DRV;                      // create drive train data structure
 #define RPM_393_HS    392      // # ticks per revolution
 #define RPM_393       627.2
 #define RPM_SE        360
+
+
+/*
+	Wrapper Functions
+*/
+
+//Sensors
+int getMainBatteryVoltage();
+int getSecondBatteryVoltage();
+
+//LCD
+void waitForPress();
+void waitForRelease();
+void lcdSelection();
+void lcdSideSelection();
+void lcdModeSelection();
+void lcdMessage();
 
 #endif
