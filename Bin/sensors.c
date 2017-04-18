@@ -2,7 +2,7 @@
 #define SENSOR_C
 
 void sensorReset(){
-  for(int i = 0; i < 20; i++){
+  for(int i = 0; i < 28; i++){
     SensorValue[i] = 0;
   }
 }

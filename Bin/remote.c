@@ -60,13 +60,11 @@ void addPrButton(int i, int port){
 }
 
 int getPrButton(int i){
-  int temp = PRB[i].status;
-  if(temp == PUSHED_RELEASED || temp == LONG_HELD) PRB[i].status = 0;
-  return temp;
+  return PRB[i].status;
 }
 
 void resetPrButton(int i){
-  //PRB[i].status = 0;
+  PRB[i].status = 0;
 }
 
 #endif
