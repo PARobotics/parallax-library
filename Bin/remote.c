@@ -18,7 +18,6 @@
   (in user control)
   if(getPrButton(index) == status){
     //Your code here
-    resetPrButton(index);
   }
   Status can be either PUSHED_RELEASED or LONG_HELD or 0 (Nothing)
 */
@@ -61,11 +60,13 @@ void addPrButton(int i, int port){
 }
 
 int getPrButton(int i){
-  return PRB[i].status;
+  int temp = PRB[i].status;
+  if(temp == PUSHED_RELEASED || temp == LONG_HELD) PRB[i].status = 0;
+  return temp;
 }
 
 void resetPrButton(int i){
-  PRB[i].status = 0;
+  //PRB[i].status = 0;
 }
 
 #endif
