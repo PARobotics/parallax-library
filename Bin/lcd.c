@@ -59,7 +59,6 @@ void lcdSideSelection(){
 }
 
 void lcdModeSelection(){
-  int t_pushed;
   MODE = AUTO_A;
 
   lcdStr1 = "Select Mode:";

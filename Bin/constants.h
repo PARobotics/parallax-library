@@ -28,15 +28,6 @@
 #define TOGGLE          2
 
 /*
-	FUNCTION WRAPPERS
-*/
-
-void autoA();
-void autoB();
-void autoC();
-void prg_skills();
-
-/*
 	DEBUG
 */
 // -- most debug are turned off
@@ -51,18 +42,15 @@ void prg_skills();
                     	Initialize, LCD, Remote related
                     */
 
-void sensorReset();
-void globalVariableReset();
 
 // LCD
-int  MODE = AUTO_A;
-int  SIDE = LEFT;         // Blue or Red side that is selected
-int  t_push_center;          // Time used to track long press mid button
+int MODE = AUTO_A;
+int SIDE = LEFT;         // Blue or Red side that is selected
 
-string  lcdStr1;                // hold the 16 character string for LCD line 1
-string  lcdStr2;                // hold the 16 character string for LCD line 2
-string  lcdStrSide;             // 'B' or 'R' indicates the field selection
-string  lcdStrMode;             // lcdStr for Mode
+string lcdStr1;                // hold the 16 character string for LCD line 1
+string lcdStr2;                // hold the 16 character string for LCD line 2
+string lcdStrSide;             // 'B' or 'R' indicates the field selection
+string lcdStrMode;             // lcdStr for Mode
 
 #define LEFTBUTTON     1
 #define CENTERBUTTON   2
@@ -148,7 +136,14 @@ drv_train DRV;                      // create drive train data structure
 	Wrapper Functions
 */
 
+//Autonomous
+void autoA();
+void autoB();
+void autoC();
+void prgSkills();
+
 //Sensors
+void sensorReset();
 int getMainBatteryVoltage();
 int getSecondBatteryVoltage();
 
