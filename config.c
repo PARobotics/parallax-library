@@ -1,18 +1,18 @@
 #ifndef CONFIG_C
 #define CONFIG_C
 
-#include "auton.c"
+#include "auton.c" //You write this file
 
-#define USE_LCD       1 //Disable if having LCD reset problems
+#define USE_LCD  0 //Disable if having LCD reset problems, or don't want LCD Selection
 
 //Configure slew rate control
-#define USE_SLEW      0 //Recommended, but not necessary
+#define USE_SLEW  0 //Disable if slew interferes with move functions or slows robot down
 
 //Configure push release
-#define USE_REMOTE    0
-#define NUM_PR_BUTTONS  0 //Only include if using remote
+#define USE_REMOTE    1
+#define NUM_PR_BUTTONS  1 //Only include if using remote
 void setUpButtons(){ //Only include if using remote
-
+  addPrButton(0, Btn5D); //The number of buttons here MUST be equal to NUM_PR_BUTTONS
 }
 
 //Configure preauton
@@ -27,7 +27,6 @@ void lcdGenerateMessage(){
   sprintf(lcdStr1, "8900 %4.1fV %4.1fV", getMainBatteryVoltage() / 1000.0, getSecondBatteryVoltage() / 1000.0);
   sprintf(lcdStr2, "Parallax");
 }
-
 
 void sensorReset(){
 

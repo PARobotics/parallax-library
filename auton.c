@@ -13,7 +13,7 @@ void autoC(){
 
 }
 
-void prg_skills(){
+void prgSkills(){
 
 }
 

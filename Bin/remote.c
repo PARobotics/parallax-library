@@ -33,10 +33,7 @@ typedef struct{
   int timePushed;
 } PRB_type;
 
-
-/*
-  PRIVATE INTERFACE
-*/
+static PRB_type PRB[NUM_PR_BUTTONS];
 
 void updatePrbStatus(){
   int sv = 0;     // temp variable to hold sensor value
@@ -59,40 +56,16 @@ void updatePrbStatus(){
   }
 }
 
-/*
-  PUBLIC INTERFACE
-*/
+void addPrButton(int i, int port){
+  PRB[i].port = port;
+}
 
-void addPrButton(int i, int port);
-void startPrButton();
-int getPrButton(int i);
-void resetPrButton(int i);
+int getPrButton(int i){
+  return PRB[i].status;
+}
 
-#if USE_REMOTE == 1
-  static PRB_type PRB[NUM_PR_BUTTONS];
-
-  void addPrButton(int i, int port){
-    PRB[i].port = port;
-  }
-
-  void startPrButton(){
-    startTask(PR_Monitor);
-  }
-
-  int getPrButton(int i){
-    return PRB[i].status;
-  }
-
-  void resetPrButton(int i){
-    PRB[i].status = 0;
-  }
-#endif
-
-task prMonitor(){
-  while (true){
-    updatePrbStatus();
-    wait1Msec(50);
-  }
+void resetPrButton(int i){
+  PRB[i].status = 0;
 }
 
 #endif

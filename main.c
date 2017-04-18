@@ -11,7 +11,7 @@
 #include "config.c" //You write this file
 #include "bin/functions.c"
 #include "bin/sensors.c"
-//#include "bin/remote.c"
+#include "bin/remote.c"
 //#include "bin/slew.c"
 #include "bin/lcd.c"
 
@@ -26,7 +26,6 @@ void initialize(){
 
   #if USE_REMOTE == 1
     setUpButtons();
-    startPrButton();
   #endif
 
   #if USE_SLEW == 1
@@ -54,6 +53,11 @@ void userControlUpdate(){
   #if USE_LCD == 1
     lcdMessage();
   #endif
+
+  #if USE_REMOTE == 1
+    updatePrbStatus();
+  #endif
+  
   wait1Msec(50);
 }
 

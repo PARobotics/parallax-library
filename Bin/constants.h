@@ -160,4 +160,10 @@ void lcdSideSelection();
 void lcdModeSelection();
 void lcdMessage();
 
+//Remote
+void updatePrbStatus();
+void addPrButton(int i, int port);
+int getPrButton(int i);
+void resetPrButton(int i);
+
 #endif
