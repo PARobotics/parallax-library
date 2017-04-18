@@ -28,8 +28,4 @@ void lcdGenerateMessage(){
   sprintf(lcdStr2, "Parallax");
 }
 
-void sensorReset(){
-
-}
-
 #endif

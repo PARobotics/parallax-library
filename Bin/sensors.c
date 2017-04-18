@@ -1,6 +1,12 @@
 #ifndef SENSOR_C
 #define SENSOR_C
 
+void sensorReset(){
+  for(int i = 0; i < 20; i++){
+    SensorValue[i] = 0;
+  }
+}
+
 int getMainBatteryVoltage(){ //Returns voltage of main battery in millivolts
   return nImmediateBatteryLevel;
 }
