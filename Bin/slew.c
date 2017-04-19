@@ -6,37 +6,14 @@
   This file implements a slew rate control, so instead of changing motor voltage suddenly, it gradually (but not slowly) changes the voltage.
 
   USAGE
-  In config.c:
-  #define USE_REMOTE    1
-  #define NUM_PR_BUTTONS  (however many buttons you want to monitor)
 
-  add_pr_button(0, Btn5U) //First parameter is index, second is button to monitor (Do for every button to monitor)
-
-  CHECKING VALUES
-  (in user control)
-  if(get_pr_button(index) == status){
-    //Your code here
-    reset_pr_button(index);
-  }
-  Status can be either PUSHED_RELEASED or LONG_HELD or 0 (Nothing)
 */
 
-// How to use the code from driver code -- example below
-// -- initialization
-//   int MOTOR_SLEW[10] ={ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 };  // has to match motor numbers
-//   #define MOTOR_SLEW_DELAY        20     //
-
-
-/*-----------------------------------------------------------------------------*/
-/*  definitiona and variables for the motor slew rate controller.              */
-// int MOTOR_SLEW[10] ={ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 };
-// #define MOTOR_SLEW_DELAY        15      // task 1/frequency in mS (about 66Hz)
-#define MOTOR_NUM               kNumbOfTotalMotors
-#define MOTOR_PWM_0           10       //  pwm value when rpm ready to take off from 0
-// #define MOTOR_PWM_0           15       //  pwm value when rpm ready to take off from 0
-#define MOTOR_PWM_1           90       //  pwm value when rpm almost has peaked
-// #define MOTOR_DEADBAND          10
-int motorReq [ MOTOR_NUM ];              // Array to hold requested speed for the motors
+#define MOTOR_NUM kNumbOfTotalMotors
+#define MOTOR_PWM_0 10       //pwm value when rpm ready to take off from 0
+#define MOTOR_PWM_1 90       //pwm value when rpm almost has peaked
+int MOTOR_SLEW[10];          //Array to store each slew value
+int motorReq[MOTOR_NUM];     //Array to hold requested speed for the motors
 int BAILOUT = 0;
 
 //----------------------------------------------------------------------------------
@@ -57,74 +34,70 @@ int pwmzone(int pwm){
   return 2;
 }
 
-/*void startSlew(){
-  startTask(MotorSlewRateTask);
-}*/
+task MotorsTask(){
+  //Takes care of motors if there is no slew rate
 
-//----------------------------------------------------------------------------------
-task MotorSlewRateTask(){
-  /*
-  MotorSlewRateTask: skips the deadzones to avoid waste time in those zones
-  */
-  int req, now;         // holder of requested and currect PWM values
-
-  // Initialize
-  for ( unsigned  int i=0;i<MOTOR_NUM;i++)
-  {
+  //Initialize and set all motors to 0V
+  for (unsigned int i = 0; i < MOTOR_NUM; i++){
     motorReq[i] = 0;
-    // motorSlew[i] = MOTOR_DEFAULT_SLEW_RATE;
+  }
+
+  while(true){
+    for (unsigned int i = 0; i < MOTOR_NUM; i++){
+      motor[i] = motorReq[i];
     }
+    wait1Msec(50);
+  }
+}
 
-  // run task until stopped
-  while( true ){
-    // run through motors at each time slice
-    for (unsigned  int i=0; i<MOTOR_NUM; i++){
-      //
+task MotorSlewRateTask(){
+  //Applies slew rate control to motors
 
-      // add bailout
-      if (vexRT[Btn7R] == 1){
+  int req, now;
+
+  //Initialize and set all motors to 0V
+  for (unsigned int i = 0; i < MOTOR_NUM; i++){
+    motorReq[i] = 0;
+  }
+
+  while(true){
+    //Go through each motor
+    for (unsigned int i = 0; i < MOTOR_NUM; i++){
+
+      //Bailout
+      if (vexRT[BAILOUT_BUTTON] == 1){
         motor[i] = 0;
   			motorReq[i] = 0;
-        BAILOUT = 1;
-        wait1Msec(100);
+        //Bailout Code
         continue;
       }
       else{
         BAILOUT = 0;
       }
 
-      req  = motorReq[i];
-      now  = motor   [i];
-      // request and current ones are the same, move to next motor
-      if (req==now) continue;
+      req = motorReq[i]; //What we want the voltage to be
+      now = motor[i]; //What the voltage is
 
-      // not using slew control
-      if (MOTOR_USE_SLEW != 1){
-        motor[i] = req;
-      }
+      if(req == now) continue; //If the voltage is what we want, continue to next motor.
+      else if(req > now){ //Increase voltage
+        //Set the now value to upper boundary of the zones
+        if(pwmzone(now) == -2) now = -MOTOR_PWM_1;    // getting out of zone -1
+        else if(pwmzone(now) == 0) now = MOTOR_PWM_0;     // getting out of zone 0
+        else if(pwmzone(now) == 2) now = 127;           // in zone 1
 
-      // increase PWM
-      else if( req > now ){
-        // -- set the now value to upper boundary of the zones
-        if      (pwmzone(now) == -2){now = -MOTOR_PWM_1;}    // getting out of zone -1
-        else if (pwmzone(now) == 0){now = MOTOR_PWM_0;}      // getting out of zone 0
-        else if (pwmzone(now) == 2){now = 127;}              // in zone 1
-        // -- do slew rate addtion and set motor PWM
+        //Do slew rate addtion and set motor PWM
         motor[i] = MIN(req, now+MOTOR_SLEW[i]);
       }
+      else if(req < now){ //Decrease voltage
+        //Set the now value to lower boundary of the zones
+        if(pwmzone(now) == -2) now = -127;
+        else if(pwmzone(now) == 0) now = -MOTOR_PWM_0;
+        else if(pwmzone(now) == 2) now = MOTOR_PWM_1;
 
-      // decrease PWM
-      else if( req < now ){
-        // -- set the now value to lower boundary of the zones
-        if      (pwmzone(now) == -2){now = -127;}
-        else if (pwmzone(now) == 0){now = -MOTOR_PWM_0;}
-        else if (pwmzone(now) == 2){now = MOTOR_PWM_1;}
-        // -- do slew rate addtion and set motor PWM
+        //Do slew rate addtion and set motor PWM
         motor[i] = MAX(req, now-MOTOR_SLEW[i]);
       }
-       // writeDebugStreamLine("M %4d %2d %4d %4d", time1[T1], i, motorReq[i], motor[i]);
     }
-
 
     wait1Msec(50);
   }

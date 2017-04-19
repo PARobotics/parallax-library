@@ -7,8 +7,12 @@
 
 //Configure slew rate control
 #define USE_SLEW  0 //Disable if slew interferes with move functions or slows robot down
+MOTOR_SLEW = {15, 15, 15, 15, 15, 15, 15, 15, 15, 15};
 
-//Configure push release
+//Configure remote
+#define BAILOUT_BUTTON Btn7R
+
+//Push release
 #define USE_REMOTE    1
 #define NUM_PR_BUTTONS  1 //Only include if using remote
 void setUpButtons(){ //Only include if using remote

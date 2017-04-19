@@ -12,7 +12,7 @@
 #include "bin/functions.c"
 #include "bin/sensors.c"
 #include "bin/remote.c"
-//#include "bin/slew.c"
+#include "bin/slew.c"
 #include "bin/lcd.c"
 
 void initialize(){
@@ -30,6 +30,8 @@ void initialize(){
 
   #if USE_SLEW == 1
     startTask(MotorSlewRateTask);
+  #else
+    startTask(MotorsTask);
   #endif
 
   preAutonProcedure();
@@ -57,7 +59,7 @@ void userControlUpdate(){
   #if USE_REMOTE == 1
     updatePrbStatus();
   #endif
-  
+
   wait1Msec(50);
 }
 
