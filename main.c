@@ -60,6 +60,13 @@ void userControlUpdate(){
     updatePrbStatus();
   #endif
 
+  if(vexRT[BAILOUT_BUTTON] == 1){
+    BAILOUT = 1;
+    bailOut();
+  }
+  else
+    BAILOUT = 0;
+
   wait1Msec(50);
 }
 

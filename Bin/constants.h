@@ -56,6 +56,9 @@ string lcdStrMode;             // lcdStr for Mode
 #define CENTERBUTTON   2
 #define RIGHTBUTTON    4
 
+//Bailout
+int BAILOUT = 1;
+
 //Wheel monitor
 #define M_PI 3.14159265358979323846
 int WHEEL_MONITOR = 0;
@@ -160,5 +163,8 @@ void updatePrbStatus();
 void addPrButton(int i, int port);
 int getPrButton(int i);
 void resetPrButton(int i);
+
+//Bailout
+void bailOut();
 
 #endif

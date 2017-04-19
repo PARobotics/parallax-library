@@ -14,7 +14,6 @@
 #define MOTOR_PWM_1 90       //pwm value when rpm almost has peaked
 int MOTOR_SLEW[10];          //Array to store each slew value
 int motorReq[MOTOR_NUM];     //Array to hold requested speed for the motors
-int BAILOUT = 0;
 
 //----------------------------------------------------------------------------------
 int pwmzone(int pwm){
@@ -65,14 +64,10 @@ task MotorSlewRateTask(){
     for (unsigned int i = 0; i < MOTOR_NUM; i++){
 
       //Bailout
-      if (vexRT[BAILOUT_BUTTON] == 1){
+      if(BAILOUT == 1){
         motor[i] = 0;
   			motorReq[i] = 0;
-        //Bailout Code
         continue;
-      }
-      else{
-        BAILOUT = 0;
       }
 
       req = motorReq[i]; //What we want the voltage to be

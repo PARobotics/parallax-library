@@ -9,8 +9,11 @@
 #define USE_SLEW  0 //Disable if slew interferes with move functions or slows robot down
 MOTOR_SLEW = {15, 15, 15, 15, 15, 15, 15, 15, 15, 15};
 
-//Configure remote
+//Configure bailout
 #define BAILOUT_BUTTON Btn7R
+void bailOut(){
+  
+}
 
 //Push release
 #define USE_REMOTE    1
