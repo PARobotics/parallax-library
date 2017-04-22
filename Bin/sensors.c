@@ -12,7 +12,11 @@ int getMainBatteryVoltage(){ //Returns voltage of main battery in millivolts
 }
 
 int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in millivolts
-  return SensorValue(PWR) * 1000 / 286;
+	#if USE_SECOND_BATTERY
+		return SensorValue(PWR) * 1000 / 286;
+	#else
+		return 0;
+	#endif
 }
 
 

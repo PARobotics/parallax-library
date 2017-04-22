@@ -27,22 +27,6 @@
 #define TESTING         5
 #define TOGGLE          2
 
-/*
-	DEBUG
-*/
-// -- most debug are turned off
-// -- dump and driver sample at 20 msec
-//    but debug stream at 20x5 = 100msec
-#define DEBUG               YES   // flag; turn ON/OFF debug message
-#define DEBUG_LCD           0     // flag; turn ON/OFF debug message for LCD
-#define DEBUG_MSG           0     // tunroff landmark and message output
-
-                    /*
-                    	MAIN FLOW
-                    	Initialize, LCD, Remote related
-                    */
-
-
 // LCD
 int MODE = AUTO_A;
 int SIDE = LEFT;         // Blue or Red side that is selected
@@ -138,6 +122,9 @@ drv_train DRV;                      // create drive train data structure
 /*
 	Wrapper Functions
 */
+
+//Slew
+#define MOTOR_NUM kNumbOfTotalMotors
 
 //Autonomous
 void autoA();

@@ -9,10 +9,8 @@
 
 */
 
-#define MOTOR_NUM kNumbOfTotalMotors
 #define MOTOR_PWM_0 10       //pwm value when rpm ready to take off from 0
 #define MOTOR_PWM_1 90       //pwm value when rpm almost has peaked
-int MOTOR_SLEW[10];          //Array to store each slew value
 int motorReq[MOTOR_NUM];     //Array to hold requested speed for the motors
 
 //----------------------------------------------------------------------------------
