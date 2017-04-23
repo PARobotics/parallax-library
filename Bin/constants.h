@@ -154,4 +154,8 @@ void resetPrButton(int i);
 //Bailout
 void bailOut();
 
+//Competition Procedure
+void userControlProcedure();
+void preAutonProcedure();
+
 #endif

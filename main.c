@@ -24,7 +24,7 @@ void initialize(){
     lcdSelection();
   #endif
 
-  #if USE_REMOTE == 1
+  #if USE_PR_BUTTON == 1
     setUpButtons();
   #endif
 
@@ -56,7 +56,7 @@ void userControlUpdate(){
     lcdMessage();
   #endif
 
-  #if USE_REMOTE == 1
+  #if USE_PR_BUTTON == 1
     updatePrbStatus();
   #endif
 
@@ -76,6 +76,8 @@ void userControlUpdate(){
   }
   else
     BAILOUT = 0;
+
+  userControlProcedure();  
 
   wait1Msec(50);
 }

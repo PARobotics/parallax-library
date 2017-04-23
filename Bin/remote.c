@@ -9,7 +9,7 @@
 
   USAGE
   In config.c:
-  #define USE_REMOTE    1
+  #define USE_PR_BUTTON    1
   #define NUM_PR_BUTTONS  (however many buttons you want to monitor)
 
   addPrButton(0, Btn5U) //First parameter is index, second is button to monitor (Do for every button to monitor)
