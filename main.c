@@ -64,6 +64,10 @@ void userControlUpdate(){
 		#if DEBUG_SLEW == 1
 			for(int i = 0; i < 10; i++) writeDebugStreamLine("Motor %d: %3d", i, motor[i]);
 		#endif
+
+    #if DEBUG_REMOTE == 1
+      for(int i = 0; i < NUM_PR_BUTTONS; i++) writeDebugStreamLine("Button %d: %d", i, getPrButton(i));
+    #endif
 	#endif
 
   if(vexRT[BAILOUT_BUTTON] == 1){

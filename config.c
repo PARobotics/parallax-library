@@ -28,8 +28,6 @@ void preAutonProcedure(){
 }
 
 //Configure LCD
-#define TEAM_NAME     "8900"
-
 void lcdGenerateMessage(){
   sprintf(lcdStr1, "8900 %4.1fV %4.1fV", getMainBatteryVoltage() / 1000.0, getSecondBatteryVoltage() / 1000.0);
   sprintf(lcdStr2, "Parallax");
@@ -38,6 +36,7 @@ void lcdGenerateMessage(){
 //Debug control
 #define DEBUG  1
 #define DEBUG_SLEW  1
+#define DEBUG_REMOTE 0
 
 //Sensors
 #define USE_SECOND_BATTERY 0
