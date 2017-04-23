@@ -46,12 +46,18 @@ void lcdGenerateMessage(){
 }
 
 /*
-  SLEW RATE
+  MOTOR CONTROL
 */
 
+//Slew Rate
 #define USE_SLEW  1 //Disable if slew interferes with move functions or slows robot down
 int MOTOR_SLEW[MOTOR_NUM] = {255, 40, 40, 40, 40, 255, 255, 255, 255, 255};
 
+//Move functions
+void move(int V, int H, int X){
+  //V: Forward/Backward motion, H: Rotation, X: Strafe
+  //This function is to be filled out so that the robot will move as given by these 3 parameters
+}
 
 /*
   SENSORS
