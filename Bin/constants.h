@@ -158,4 +158,16 @@ void bailOut();
 void userControlProcedure();
 void preAutonProcedure();
 
+//Movement
+void move(int V, int H, int X);
+void moveStop();
+void moveFwd();
+void moveBkwd();
+void rotate(int vol);
+void strafe(int vol);
+void moveCurve(int level);
+void moveCurveBkwd(int level);
+void moveBy(int dist, int tlimit);
+void rotateBy(int ang, int tlimit);
+
 #endif

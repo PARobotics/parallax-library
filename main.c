@@ -77,7 +77,7 @@ void userControlUpdate(){
   else
     BAILOUT = 0;
 
-  userControlProcedure();  
+  userControlProcedure();
 
   wait1Msec(50);
 }
