@@ -43,8 +43,12 @@ string lcdStrMode;             // lcdStr for Mode
 //Bailout
 int BAILOUT = 1;
 
-//Wheel monitor
+//Motor Monitor
 #define M_PI 3.14159265358979323846
+#define X_POS 0
+#define Y_POS 1
+#define THETA 2
+
 int WHEEL_MONITOR = 0;
 // .1 inch, .,1deg as units
 typedef struct {
@@ -64,50 +68,6 @@ typedef struct {
   int    DX           ;               // 12" between the wheel
 } drv_train;
 drv_train DRV;                      // create drive train data structure
-
-// int  Wheel_t_last      = 0;
-// int  Y_disp            = 0;    // in 0.01 inch
-// int  R_disp            = 0;    // in 1/10 degree
-// int  Y_disp_last       = 0;    // in 0.01 inch
-// int  R_disp_last       = 0;    // in 1/10 degree
-// int  X_vel             = 0;    // in in/sec
-// int  Y_vel             = 0;    // in in/sec
-// int  R_vel             = 0;    // in deg/sec
-// int  GYRO_VAL          = 0;
-
-#define MOTION_DRV_THRESHOLD  10      // threshold of joystick sensitivity
-#define  DRIVE_VOLT 127                 // don't want full speed in drive
-
-//MOVE Y
-#define MOVEY_DT          100
-#define MOVEY_BRAKE_V     -20
-#define MOVEY_DIST1       60
-#define MOVEY_DIST0       20
-#define MOVEY_V1          127
-#define MOVEY_Y1          200
-#define MOVEY_Y2          20
-#define MOVEY_DY          10
-#define MOVEY_KV          0.1
-#define MOVEY_V_DEF       60
-#define MOVEY_V_MIN       -50
-#define MOVEY_V_MAX       127
-
-//int MOVEY_VCMD = 0;
-
-//Smart rotate
-//int ROTATE_V1 = 127;
-#define ROTATE_ANG1       200
-#define ROTATE_ANG0       50
-#define ROTATE_BRAKE_V    -20
-#define ROTATE_BRAKE_DT   50
-#define ROTATE_Y1         160
-#define ROTATE_Y2         20
-#define ROTATE_DY         10
-#define ROTATE_KV         0.2
-#define ROTATE_V_DEF      40
-#define ROTATE_V_MIN      -50
-#define ROTATE_V_MAX      127
-
 
 /*
 	CONTROL, SENSORS

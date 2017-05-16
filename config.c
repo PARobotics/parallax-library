@@ -29,6 +29,7 @@ void setUpButtons(){ //Only include if using remote
 }
 
 //Configure bailout
+#define USE_BAILOUT   1
 #define BAILOUT_BUTTON Btn7R
 void bailOut(){
 
@@ -53,10 +54,16 @@ void lcdGenerateMessage(){
 #define USE_SLEW  1 //Disable if slew interferes with move functions or slows robot down
 int MOTOR_SLEW[MOTOR_NUM] = {255, 40, 40, 40, 40, 255, 255, 255, 255, 255};
 
+#define USE_MONITOR 1 //Toggles the monitor task (Necessary for move functions, should be disabled otherwise)
+
 //Move functions
 void move(int V, int H, int X){
   //V: Forward/Backward motion, H: Rotation, X: Strafe
   //This function is to be filled out so that the robot will move as given by these 3 parameters
+}
+
+void getWheelVal(){
+
 }
 
 /*
@@ -72,5 +79,6 @@ void move(int V, int H, int X){
 #define DEBUG  1
 #define DEBUG_SLEW  1
 #define DEBUG_REMOTE 0
+#define DEBUG_MONITOR  0
 
 #endif

@@ -41,6 +41,11 @@ task MotorsTask(){
 
   while(true){
     for (unsigned int i = 0; i < MOTOR_NUM; i++){
+      if(BAILOUT == 1){
+        motor[i] = 0;
+        continue;
+      }
+
       motor[i] = motorReq[i];
     }
     wait1Msec(50);

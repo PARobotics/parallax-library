@@ -34,6 +34,10 @@ void initialize(){
     startTask(MotorsTask);
   #endif
 
+  #if USE_MONITOR == 1
+    startTask(MotorMonitor);
+  #endif
+
   preAutonProcedure();
 }
 
@@ -70,12 +74,14 @@ void userControlUpdate(){
     #endif
 	#endif
 
-  if(vexRT[BAILOUT_BUTTON] == 1){
-    BAILOUT = 1;
-    bailOut();
-  }
-  else
-    BAILOUT = 0;
+  #if USE_BAILOUT == 1
+    if(vexRT[BAILOUT_BUTTON] == 1){
+      BAILOUT = 1;
+      bailOut();
+    }
+    else
+      BAILOUT = 0;
+  #endif
 
   userControlProcedure();
 
