@@ -63,7 +63,12 @@ void move(int V, int H, int X){
 }
 
 void getWheelVal(){
-
+  DRV.raw[X_POS] = -SensorValue(WHEEL_L);
+  DRV.raw[Y_POS] = SensorValue(WHEEL_R);
+  DRV.raw[THETA] = SensorValue(G_SENSOR);
+  // no more than 360 deg per move
+  if (DRV.raw[THETA] - DRV.raw_last[THETA] > 2700)  DRV.raw[THETA] = DRV.raw[THETA] - 3600;
+  if (DRV.raw[THETA] - DRV.raw_last[THETA] < -2700) DRV.raw[THETA] = DRV.raw[THETA] + 3600;
 }
 
 /*
@@ -80,5 +85,6 @@ void getWheelVal(){
 #define DEBUG_SLEW  1
 #define DEBUG_REMOTE 0
 #define DEBUG_MONITOR  0
+#define DEBUG_WHEEL   0
 
 #endif

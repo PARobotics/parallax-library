@@ -1,48 +1,38 @@
-#ifndef SS_MONITOR_C
-#define SS_MONITOR_C
+#ifndef MONITOR_C
+#define MONITOR_C
 
 #define WHEEL_DT  50
 
 int Wheel_t0 = time1[T1];
 
-void getWheelVal() {
-  //360 ticks = 4 (diameter) * pi
-  DRV.raw[X_POS] = -SensorValue(WHEEL_L);
-  DRV.raw[Y_POS] = SensorValue(WHEEL_R);
-  DRV.raw[THETA] = SensorValue(G_SENSOR);
-  // no more than 360 deg per move
-  if (DRV.raw[THETA] - DRV.raw_last[THETA] > 2700)  DRV.raw[THETA] = DRV.raw[THETA] - 3600;
-  if (DRV.raw[THETA] - DRV.raw_last[THETA] < -2700) DRV.raw[THETA] = DRV.raw[THETA] + 3600;
-}
-
-void wheel_init() {
+void wheelInit() {
   for (unsigned int i = 0; i < 3; i++) {
-    DRV.raw      [i] = 0;
+    DRV.raw[i] = 0;
     //DRV.raw_pre  [i] = 0;
-    DRV.raw_last [i] = 0;
-    DRV.pos      [i] = 0.0;
-    DRV.pos_pre  [i] = 0.0;
+    DRV.raw_last[i] = 0;
+    DRV.pos[i] = 0.0;
+    DRV.pos_pre[i] = 0.0;
     DRV.pos_delta[i] = 0.0;
-    DRV.move     [i] = 0.0;
-  }
-  for (unsigned  int i=0; i<2; i++) {
-    DRV.speed    [i] = 0;
+    DRV.move[i] = 0.0;
   }
 
-  DRV.method        = 1;                  // method for getting detla_r   1: use gyro, 2: use wheels
-  DRV.pi2d          = 572.9578;           // .1 deg per pi
-  DRV.tick2inch     = 4 * 3.14159 / 36;   // 0.1 inch per tick
-  DRV.t_last        = 0;
-  DRV.dbg_cnt       = 0;
-  DRV.DT            = WHEEL_DT;
-  DRV.DX            = 130;               // 13" between the wheel
+  for (unsigned int i = 0; i < 2; i++) {
+    DRV.speed[i] = 0;
+  }
+
+  DRV.method = 1;                  // method for getting detla_r   1: use gyro, 2: use wheels
+  DRV.pi2d = 572.9578;           // .1 deg per pi
+  DRV.tick2inch = 4 * 3.14159 / 36;   // 0.1 inch per tick
+  DRV.t_last = 0;
+  DRV.dbg_cnt = 0;
+  DRV.DT = WHEEL_DT;
+  DRV.DX = 130;               // 13" between the wheel
 }
 
 
 void wheel_refresh() {
-      // writeDebugStreamLine("wheel_refresh");
-  for (unsigned  int i=0; i<3; i++)  DRV.pos_pre[i]  = DRV.pos[i];
-  for (unsigned  int i=0; i<3; i++)  DRV.move   [i]  = 0.;
+  for (unsigned int i = 0; i < 3; i++) DRV.pos_pre[i] = DRV.pos[i];
+  for (unsigned int i = 0; i < 3; i++) DRV.move[i] = 0.0;
 }
 
 void wheel_reset(float X, float Y, float R) {
@@ -52,14 +42,13 @@ void wheel_reset(float X, float Y, float R) {
 }
 
 void wheel_output_pos(int lmk_id) {
-  #if DEBUG_MSG == YES
-    // writeDebugStreamLine("LMK%d",lmk_id);
+  #if DEBUG_WHEEL == 1
     writeDebugStreamLine("K%d %4d %4d %4d %4d", lmk_id, time1[T1] - Wheel_t0, DRV.pos[X_POS],DRV.pos[Y_POS],DRV.pos[THETA]);
   #endif
 }
 
 void dbgMsg(const char* msg) {
-  #if DEBUG_MSG == YES
+  #if DEBUG_WHEEL == 1
     writeDebugStreamLine("%% -- %s",msg);
   #endif
 }
@@ -71,9 +60,8 @@ void dbgMsg(const char* msg) {
 
 task MotorMonitor(){
   int tnow; int dump_t0; int lift_last_monitor = 0;
-  // int Wheel_t0; -- need Wheel_t0 to be globa
   int lift_t0;
-  float dw_l,dw_r, drot, dd;     // delta distance travelled
+  float dw_l,dw_r, drot, dd;
   int dump_dbg_cnt = 0;
   int lift_dbg_cnt = 0;
   while (true) {
@@ -151,4 +139,4 @@ task MotorMonitor(){
 }
 
 
-#endif //SS_MONITOR_C
+#endif //MONITOR_C
