@@ -8,7 +8,7 @@
 */
 
 #include "bin/constants.h"
-#include "config.c" //You write this file
+#include "../config.c" //You write this file
 #include "bin/functions.c"
 #include "bin/sensors.c"
 #include "bin/remote.c"
