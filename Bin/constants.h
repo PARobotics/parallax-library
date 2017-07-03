@@ -26,6 +26,8 @@
 #define RBT_SKILL       4
 #define TESTING         5
 #define TOGGLE          2
+#define CLOCKWISE       1
+#define COUNTERCLOCKWISE -1
 
 // LCD
 int MODE = AUTO_A;
