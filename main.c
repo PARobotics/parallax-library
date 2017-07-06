@@ -8,8 +8,9 @@
 */
 
 #include "bin/constants.h"
-#include "../config.c" //You write this file
 #include "bin/functions.c"
+#include "../config.c" //You write this file
+#include "../auton.c"
 #include "bin/sensors.c"
 #include "bin/remote.c"
 #include "bin/slew.c"
@@ -85,7 +86,7 @@ void userControlUpdate(){
 
   userControlProcedure();
 
-  wait1Msec(50);
+  wait1Msec(10);
 }
 
 #endif

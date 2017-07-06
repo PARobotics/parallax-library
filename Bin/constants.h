@@ -80,19 +80,12 @@ drv_train DRV;                      // create drive train data structure
 #define RPM_393       627.2
 #define RPM_SE        360
 
-
 /*
 	Wrapper Functions
 */
 
 //Slew
 #define MOTOR_NUM kNumbOfTotalMotors
-
-//Autonomous
-void autoA();
-void autoB();
-void autoC();
-void prgSkills();
 
 //Sensors
 void sensorReset();
