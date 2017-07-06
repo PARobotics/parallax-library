@@ -18,7 +18,7 @@
 #define IN              1
 #define OUT            -1
 #define OPEN            1
-#define CLOSE           0
+#define CLOSE           -1
 #define AUTO_A          0
 #define AUTO_B          1
 #define AUTO_C          2
