@@ -21,6 +21,8 @@ void lcdSelection(){ //Function that handles the side and mode selection during 
   clearLCDLine(0);
   clearLCDLine(1);
 
+  bLCDBacklight = true;
+
   //Display filler text
   lcdStr1 = "Select Side:";
   lcdStr2 = "starting ...";
@@ -34,6 +36,7 @@ void lcdSelection(){ //Function that handles the side and mode selection during 
   wait1Msec(250);
 
   lcdModeSelection();
+  bLCDBacklight = false;
 }
 
 void lcdSideSelection(){
