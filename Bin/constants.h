@@ -75,6 +75,8 @@ drv_train DRV;                      // create drive train data structure
 	CONTROL, SENSORS
 */
 
+int motorReq[kNumbOfTotalMotors];     //Array to hold requested speed for the motors
+
 // Constants
 #define RPM_393_HS    392      // # ticks per revolution
 #define RPM_393       627.2
