@@ -47,7 +47,7 @@ task MotorsTask(){
 
       motor[i] = motorReq[i];
     }
-    wait1Msec(50);
+    wait1Msec(10);
   }
 }
 
@@ -96,7 +96,7 @@ task MotorSlewRateTask(){
       }
     }
 
-    wait1Msec(50);
+    wait1Msec(10);
   }
 }
 
