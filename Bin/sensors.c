@@ -40,6 +40,10 @@ void updateSensorValue(sensor* s){
   s->speed = (s->val - s->valI) / deltaT;
 
   s->tI = s->tF;
+
+  #if DEBUG == 1 && DEBUG_SENSORS == 1
+    writeDebugStreamLine("Value: %d Speed: %d", s->val, s->speed);
+  #endif
 }
 
 #endif
