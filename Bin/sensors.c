@@ -5,6 +5,14 @@ void sensorReset(){
   for(int i = 0; i < 28; i++){
     SensorValue[i] = 0;
   }
+  nMotorEncoder[I2C_1] = 0;
+  nMotorEncoder[I2C_2] = 0;
+  nMotorEncoder[I2C_3] = 0;
+  nMotorEncoder[I2C_4] = 0;
+  nMotorEncoder[I2C_5] = 0;
+  nMotorEncoder[I2C_6] = 0;
+  nMotorEncoder[I2C_7] = 0;
+  nMotorEncoder[I2C_8] = 0;
 }
 
 int getMainBatteryVoltage(){ //Returns voltage of main battery in millivolts
