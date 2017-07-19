@@ -19,27 +19,27 @@ int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in mi
 	#endif
 }
 
-struct Sensor {
+typedef struct {
   int valI;
-  int valf;
+  int val;
   int tI;
   int tf;
   int speed;
-  int (*getSensorValue)()
-};
+  tSensors port;
+} sensor;
 
-void updateSensorValue(struct Sensor* s){
-  s.valI = s.valf;
-  s.valf = s.getSensorValue();//somehow get val
+void updateSensorValue(sensor* s){
+  s->valI = s->val;
+  s->val = SensorValue(s->port);
 
-  s.tf = time1[T1];
+  s->tf = time1[T1];
 
-  int deltaT = s.tf - s.ti;
+  int deltaT = s->tF - s->tI;
   if(deltaT == 0) deltaT = 1;
 
-  s.speed = (s.valf - s.valI) / deltaT;
+  s->speed = (s->val - s->valI) / deltaT;
 
-  s.tI = s.tF;
+  s->tI = s->tF;
 }
 
 #endif
