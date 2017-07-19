@@ -48,9 +48,13 @@ void updatePrbStatus(){
     if (sv == 0 && PRB[i].pushed == 1){
       PRB[i].pushed = 0;
       if(time1[T1] - PRB[i].timePushed >= 1000){
+        if(debug.debug || debug.remote) writeDebugStreamLine("PRB %d has been long held", i);
         PRB[i].status = 2;
       }
-      else PRB[i].status = 1;
+      else {
+        if(debug.debug || debug.remote) writeDebugStreamLine("PRB %d has been pushed and released", i);
+        PRB[i].status = 1;
+      }
     }
   }
 }

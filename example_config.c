@@ -81,6 +81,7 @@ void getWheelVal(){
 /*
   DEBUGGING TOGGLES
 */
+
 #define DEBUG  1
 #define DEBUG_SLEW  1
 #define DEBUG_REMOTE 0

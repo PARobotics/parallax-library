@@ -42,15 +42,15 @@ void wheel_reset(float X, float Y, float R) {
 }
 
 void wheel_output_pos(int lmk_id) {
-  #if DEBUG_WHEEL == 1
+  if(debug.wheel == 1 || debug.debug == 1){
     writeDebugStreamLine("K%d %4d %4d %4d %4d", lmk_id, time1[T1] - Wheel_t0, DRV.pos[X_POS],DRV.pos[Y_POS],DRV.pos[THETA]);
-  #endif
+  }
 }
 
 void dbgMsg(const char* msg) {
-  #if DEBUG_WHEEL == 1
+  if(debug.wheel == 1 || debug.debug == 1){
     writeDebugStreamLine("%% -- %s",msg);
-  #endif
+  }
 }
 
 /*
@@ -126,9 +126,9 @@ task MotorMonitor(){
       }
     }
     else if (WHEEL_MONITOR == STOP){
-      #if DEBUG_MONITOR == 1
+      if(debug.monitor == 1 || debug.debug == 1){
         writeDebugStreamLine("WHEEL_MONITOR = STOP");
-      #endif
+      }
       wheel_refresh();
       DRV.speed[X_POS] = 0;
       DRV.speed[Y_POS] = 0;

@@ -127,4 +127,19 @@ void moveCurveBkwd(int level);
 void moveBy(int dist, int tlimit);
 void rotateBy(int ang, int tlimit);
 
+/*
+	CONFIG HANDLERS
+*/
+
+typedef struct{
+	int debug;
+	int slew;
+	int remote;
+	int monitor;
+	int wheel;
+	int sensors;
+} Debug;
+
+Debug debug;
+
 #endif

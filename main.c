@@ -26,12 +26,16 @@ void initialize(){
   #endif
 
   #if USE_PR_BUTTON == 1
+    if(debug.debug || debug.remote) writeDebugStreamLine("Setting up remote buttons");
     setUpButtons();
+    if(debug.debug || debug.remote) writeDebugStreamLine("Successfully set up remote buttons");
   #endif
 
   #if USE_SLEW == 1
+    if(debug.debug || debug.slew) writeDebugStreamLine("Slew task is enabled");
     startTask(MotorSlewRateTask);
   #else
+    if(debug.debug || debug.slew) writeDebugStreamLine("Slew task is disabled.");
     startTask(MotorsTask);
   #endif
 
@@ -65,18 +69,17 @@ void userControlUpdate(){
     updatePrbStatus();
   #endif
 
-	#if DEBUG == 1
-		#if DEBUG_SLEW == 1
-			for(int i = 0; i < 10; i++) writeDebugStreamLine("Motor %d: %3d", i, motor[i]);
-		#endif
+	if(debug.slew == 1 || debug.debug == 1){
+		for(int i = 0; i < 10; i++) writeDebugStreamLine("Motor %d: %3d", i, motor[i]);
+	}
 
-    #if DEBUG_REMOTE == 1
-      for(int i = 0; i < NUM_PR_BUTTONS; i++) writeDebugStreamLine("Button %d: %d", i, getPrButton(i));
-    #endif
-	#endif
+  if(debug.remote == 1 || debug.debug == 1){
+    for(int i = 0; i < NUM_PR_BUTTONS; i++) writeDebugStreamLine("Button %d: %d", i, getPrButton(i));
+  }
 
   #if USE_BAILOUT == 1
     if(vexRT[BAILOUT_BUTTON] == 1){
+      if(debug.debug || debug.remote) writeDebugStreamLine("Bailout button pressed");
       BAILOUT = 1;
       bailOut();
     }

@@ -50,9 +50,9 @@ void updateSensorValue(sensor* s){
 
   s->tI = s->tF;
 
-  #if DEBUG == 1 && DEBUG_SENSORS == 1
+  if(debug.sensors == 1 || debug.debug == 1){
     writeDebugStreamLine("Value: %d Speed: %d", s->val, s->speed);
-  #endif
+  }
 }
 
 #endif
