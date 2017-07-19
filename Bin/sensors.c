@@ -25,12 +25,13 @@ typedef struct {
   int tI;
   int tf;
   int speed;
+  float scalingFactor;
   tSensors port;
 } sensor;
 
 void updateSensorValue(sensor* s){
   s->valI = s->val;
-  s->val = SensorValue(s->port);
+  s->val = SensorValue(s->port) * scalingFactor;
 
   s->tf = time1[T1];
 
