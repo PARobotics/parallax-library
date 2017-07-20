@@ -30,74 +30,79 @@ int pwmzone(int pwm){
   return 2;
 }
 
-task MotorsTask(){
-  //Takes care of motors if there is no slew rate
+#if USE_SLEW == 0
+  task MotorsTask(){
+    //Takes care of motors if there is no slew rate
 
-  //Initialize and set all motors to 0V
-  for (unsigned int i = 0; i < MOTOR_NUM; i++){
-    motorReq[i] = 0;
-  }
-
-  while(true){
+    //Initialize and set all motors to 0V
     for (unsigned int i = 0; i < MOTOR_NUM; i++){
-      if(BAILOUT == 1){
-        motor[i] = 0;
-        continue;
-      }
-
-      motor[i] = motorReq[i];
-    }
-    wait1Msec(10);
-  }
-}
-
-task MotorSlewRateTask(){
-  //Applies slew rate control to motors
-
-  int req, now;
-
-  //Initialize and set all motors to 0V
-  for (unsigned int i = 0; i < MOTOR_NUM; i++){
-    motorReq[i] = 0;
-  }
-
-  while(true){
-    //Go through each motor
-    for (unsigned int i = 0; i < MOTOR_NUM; i++){
-
-      //Bailout
-      if(BAILOUT == 1){
-        motor[i] = 0;
-  			motorReq[i] = 0;
-        continue;
-      }
-
-      req = motorReq[i]; //What we want the voltage to be
-      now = motor[i]; //What the voltage is
-
-      if(req == now) continue; //If the voltage is what we want, continue to next motor.
-      else if(req > now){ //Increase voltage
-        //Set the now value to upper boundary of the zones
-        if(pwmzone(now) == -2) now = -MOTOR_PWM_1;    // getting out of zone -1
-        else if(pwmzone(now) == 0) now = MOTOR_PWM_0;     // getting out of zone 0
-        else if(pwmzone(now) == 2) now = 127;           // in zone 1
-
-        //Do slew rate addtion and set motor PWM
-        motor[i] = MIN(req, now+MOTOR_SLEW[i]);
-      }
-      else if(req < now){ //Decrease voltage
-        //Set the now value to lower boundary of the zones
-        if(pwmzone(now) == -2) now = -127;
-        else if(pwmzone(now) == 0) now = -MOTOR_PWM_0;
-        else if(pwmzone(now) == 2) now = MOTOR_PWM_1;
-
-        //Do slew rate addtion and set motor PWM
-        motor[i] = MAX(req, now-MOTOR_SLEW[i]);
-      }
+      motorReq[i] = 0;
     }
 
-    wait1Msec(10);
+    while(true){
+      for (unsigned int i = 0; i < MOTOR_NUM; i++){
+        if(BAILOUT == 1){
+          motor[i] = 0;
+          continue;
+        }
+
+        motor[i] = motorReq[i];
+      }
+      wait1Msec(10);
+    }
   }
-}
+#else
+
+  task MotorSlewRateTask(){
+    //Applies slew rate control to motors
+
+    int req, now;
+
+    //Initialize and set all motors to 0V
+    for (unsigned int i = 0; i < MOTOR_NUM; i++){
+      motorReq[i] = 0;
+    }
+
+    while(true){
+      //Go through each motor
+      for (unsigned int i = 0; i < MOTOR_NUM; i++){
+
+        //Bailout
+        if(BAILOUT == 1){
+          motor[i] = 0;
+    			motorReq[i] = 0;
+          continue;
+        }
+
+        req = motorReq[i]; //What we want the voltage to be
+        now = motor[i]; //What the voltage is
+
+        if(req == now) continue; //If the voltage is what we want, continue to next motor.
+        else if(req > now){ //Increase voltage
+          //Set the now value to upper boundary of the zones
+          if(pwmzone(now) == -2) now = -MOTOR_PWM_1;    // getting out of zone -1
+          else if(pwmzone(now) == 0) now = MOTOR_PWM_0;     // getting out of zone 0
+          else if(pwmzone(now) == 2) now = 127;           // in zone 1
+
+          //Do slew rate addtion and set motor PWM
+          motor[i] = MIN(req, now+MOTOR_SLEW[i]);
+        }
+        else if(req < now){ //Decrease voltage
+          //Set the now value to lower boundary of the zones
+          if(pwmzone(now) == -2) now = -127;
+          else if(pwmzone(now) == 0) now = -MOTOR_PWM_0;
+          else if(pwmzone(now) == 2) now = MOTOR_PWM_1;
+
+          //Do slew rate addtion and set motor PWM
+          motor[i] = MAX(req, now-MOTOR_SLEW[i]);
+        }
+      }
+
+      wait1Msec(10);
+    }
+
+  }
+
+#endif
 
 #endif
