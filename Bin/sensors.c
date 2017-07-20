@@ -20,7 +20,11 @@ int getMainBatteryVoltage(){ //Returns voltage of main battery in millivolts
 }
 
 int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in millivolts
-	#if USE_SECOND_BATTERY
+	#ifndef USE_SECOND_BATTERY
+	#define USE_SECOND_BATTERY 0
+	#endif
+
+	#if USE_SECOND_BATTERY == 1
 		return SensorValue(PWR) * 1000 / 286;
 	#else
 		return 0;
@@ -39,7 +43,7 @@ typedef struct {
 
 void updateSensorValue(sensor* s){
   s->valI = s->val;
-  s->val = SensorValue(s->port) * scalingFactor;
+  s->val = SensorValue(s->port) * s->scalingFactor;
 
   s->tf = time1[T1];
 
