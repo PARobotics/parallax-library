@@ -23,8 +23,10 @@ void setUpButtons(){ //Only include if using remote
 
 }
 
-#define USE_BAILOUT 0
-#define BAILOUT_BUTTON Btn7D
+#define BAILOUT_BUTTON Btn7D //Include if using a bailout button
+void bailOut(){ //Must be included if using bailout
+
+}
 
 /*
   Sensors

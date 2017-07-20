@@ -77,9 +77,11 @@ void userControlUpdate(){
     for(int i = 0; i < NUM_PR_BUTTONS; i++) writeDebugStreamLine("Button %d: %d", i, getPrButton(i));
   }
 
-  #if USE_BAILOUT == 1
+  #ifdef BAILOUT_BUTTON
     if(vexRT[BAILOUT_BUTTON] == 1){
       if(debug.debug || debug.remote) writeDebugStreamLine("Bailout button pressed");
+
+      for(int i = 0; i < 10; i++) motor[i] = 0;
       BAILOUT = 1;
       bailOut();
     }
