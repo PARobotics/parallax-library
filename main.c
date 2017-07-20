@@ -67,15 +67,14 @@ void userControlUpdate(){
 
   #if USE_PR_BUTTON == 1
     updatePrbStatus();
+    if(debug.remote == 1 || debug.debug == 1){
+      for(int i = 0; i < NUM_PR_BUTTONS; i++) writeDebugStreamLine("Button %d: %d", i, getPrButton(i));
+    }
   #endif
 
 	if(debug.slew == 1 || debug.debug == 1){
 		for(int i = 0; i < 10; i++) writeDebugStreamLine("Motor %d: %3d", i, motor[i]);
 	}
-
-  if(debug.remote == 1 || debug.debug == 1){
-    for(int i = 0; i < NUM_PR_BUTTONS; i++) writeDebugStreamLine("Button %d: %d", i, getPrButton(i));
-  }
 
   #ifdef BAILOUT_BUTTON
     if(vexRT[BAILOUT_BUTTON] == 1){
