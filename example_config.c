@@ -1,49 +1,42 @@
 #ifndef CONFIG_C
 #define CONFIG_C
 
-#include "auton.c" //You write this file
-
 /*
-  COMPETITION PROCEDURE
-  Handles all the configuration for the different modes of the game: pre auton, user control, etc.
+  Competition Procedure
+  Defines behaviors while the robot goes through pre-auton, autonomous, and user control
 */
 
-//Configure preauton
-void preAutonProcedure(){
-  //This code runs during preauton
+// ** Pre auton **
+void preAutonProcedure(){ //This code runs during preauton
 }
 
-void userControlProcedure(){
-  //This code executes inside the user control while loop
+// ** Auton **
+
+// ** User Control **
+void userControlProcedure(){ //This code executes inside the user control while loop
 }
 
-/*
-  REMOTE
-*/
-
-//Set up push release buttons
+//Remote
 #define USE_PR_BUTTON  0
 #define NUM_PR_BUTTONS  1 //Only include if using remote
 void setUpButtons(){ //Only include if using remote
-  addPrButton(0, Btn5D); //The number of buttons here MUST be equal to NUM_PR_BUTTONS
-}
-
-//Configure bailout
-#define USE_BAILOUT   1
-#define BAILOUT_BUTTON Btn7R
-void bailOut(){
 
 }
+
+#define USE_BAILOUT 0
+#define BAILOUT_BUTTON Btn7D
 
 /*
-  LCD
+  Sensors
+  Configure them here
 */
 
-#define USE_LCD  0 //Disable if having LCD reset problems, or don't want LCD Selection
+#define USE_SECOND_BATTERY 1 //Include this if using a second battery
 
-void lcdGenerateMessage(){
+#define USE_LCD  1 //Include if using LCD
+void lcdGenerateMessage(){ //Include if using LCD
   sprintf(lcdStr1, "8900 %4.1fV %4.1fV", getMainBatteryVoltage() / 1000.0, getSecondBatteryVoltage() / 1000.0);
-  sprintf(lcdStr2, "Parallax");
+  sprintf(lcdStr2, "%d   ", getTurntableDegrees());
 }
 
 /*
@@ -52,40 +45,26 @@ void lcdGenerateMessage(){
 
 //Slew Rate
 #define USE_SLEW  1 //Disable if slew interferes with move functions or slows robot down
-int MOTOR_SLEW[MOTOR_NUM] = {255, 40, 40, 40, 40, 255, 255, 255, 255, 255};
-
-#define USE_MONITOR 1 //Toggles the monitor task (Necessary for move functions, should be disabled otherwise)
+int MOTOR_SLEW[MOTOR_NUM] = {255, 40, 40, 255, 255, 255, 255, 40, 40, 255};
 
 //Move functions
-void move(int V, int H, int X){
-  //V: Forward/Backward motion, H: Rotation, X: Strafe
-  //This function is to be filled out so that the robot will move as given by these 3 parameters
-}
-
 void getWheelVal(){
-  DRV.raw[X_POS] = -SensorValue(WHEEL_L);
-  DRV.raw[Y_POS] = SensorValue(WHEEL_R);
-  DRV.raw[THETA] = SensorValue(G_SENSOR);
-  // no more than 360 deg per move
-  if (DRV.raw[THETA] - DRV.raw_last[THETA] > 2700)  DRV.raw[THETA] = DRV.raw[THETA] - 3600;
-  if (DRV.raw[THETA] - DRV.raw_last[THETA] < -2700) DRV.raw[THETA] = DRV.raw[THETA] + 3600;
+  DRV.raw[X_POS] = 0;
+  DRV.raw[Y_POS] = 0;
+  DRV.raw[THETA] = 0;
+}
+
+void move(int V, int H, int X){
+  motorReq[M_WHEEL_L1] = BOUND(V + H, -127, 127);
+  motorReq[M_WHEEL_L2] = BOUND(V + H, -127, 127);
+  motorReq[M_WHEEL_R1] = BOUND(V - H, -127, 127);
+  motorReq[M_WHEEL_R2] = BOUND(V - H, -127, 127);
 }
 
 /*
-  SENSORS
+  DEBUGGING
 */
 
-//Configure Sensors
-#define USE_SECOND_BATTERY 0
-
-/*
-  DEBUGGING TOGGLES
-*/
-
-#define DEBUG  1
-#define DEBUG_SLEW  1
-#define DEBUG_REMOTE 0
-#define DEBUG_MONITOR  0
-#define DEBUG_WHEEL   0
+debug.debug = 1; //Add your debugging toggles here
 
 #endif

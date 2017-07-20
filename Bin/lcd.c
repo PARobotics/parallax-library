@@ -6,6 +6,10 @@
   Takes care of LCD Selection and automatically displaying and update messages.
 */
 
+#ifndef USE_LCD
+#define USE_LCD 0
+#endif
+
 #if USE_LCD == 1
 
   void waitForPress(){
