@@ -43,7 +43,7 @@ string lcdStrMode;             // lcdStr for Mode
 #define RIGHTBUTTON    4
 
 //Bailout
-int BAILOUT = 1;
+int BAILOUT = 0;
 
 //Motor Monitor
 #define M_PI 3.14159265358979323846

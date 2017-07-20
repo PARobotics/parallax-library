@@ -31,6 +31,7 @@ int pwmzone(int pwm){
 }
 
 #if USE_SLEW == 0
+
   task MotorsTask(){
     //Takes care of motors if there is no slew rate
 
@@ -51,6 +52,7 @@ int pwmzone(int pwm){
       wait1Msec(10);
     }
   }
+
 #else
 
   task MotorSlewRateTask(){
