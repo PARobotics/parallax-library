@@ -63,6 +63,8 @@ void move(int V, int H, int X){
   motorReq[M_WHEEL_R2] = BOUND(V - H, -127, 127);
 }
 
+#define USE_FPS 1 //Use field positioning system.
+
 /*
   DEBUGGING
 */

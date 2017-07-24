@@ -31,21 +31,11 @@ int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in mi
 	#endif
 }
 
-typedef struct {
-  int valI;
-  int val;
-  int tI;
-  int tf;
-  int speed;
-  float scalingFactor;
-  tSensors port;
-} sensor;
-
 sensor initializeSensor(float sF, tSensors p){
   sensor temp;
   temp.scalingFactor = sF;
   temp.port = p;
-  return temp; 
+  return temp;
 }
 
 void updateSensorValue(sensor* s){

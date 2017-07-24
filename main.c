@@ -42,6 +42,10 @@ void initialize(){
     startTask(MotorMonitor);
   #endif
 
+  #if USE_FPS == 1
+    startTask(fpsTask);
+  #endif
+
   preAutonProcedure();
 }
 

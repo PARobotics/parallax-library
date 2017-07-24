@@ -82,6 +82,31 @@ int motorReq[kNumbOfTotalMotors];     //Array to hold requested speed for the mo
 #define RPM_393       627.2
 #define RPM_SE        360
 
+//Sensors
+typedef struct {
+  int valI;
+  int val;
+  int tI;
+  int tf;
+  int speed;
+  float scalingFactor;
+  tSensors port;
+} sensor;
+
+//FPS
+#if USE_FPS == 1
+	typedef struct{
+		int x; //robot's x coordinate (in 0.1 inches)
+		int y; //robot's y coordinate (in 0.1 inches)
+		int r; //robot's angle (in 0.1 degrees)
+		sensor left; //sensor measuring the left side of the base
+		sensor right; //sensor measuring the right side of the base
+		sensor gyro; //gyro sensor measuring rotation
+	} FPS;
+
+	FPS fps;
+#endif
+
 /*
 	Wrapper Functions
 */
@@ -127,6 +152,16 @@ void moveCurveBkwd(int level);
 void moveBy(int dist, int tlimit);
 void rotateBy(int ang, int tlimit);
 
+//FPS
+#if USE_FPS == 1
+	int fpsGetDegrees();
+	int fpsGetX();
+	int fpsGetY();
+	int fpsSetDegrees();
+	int fpsSetX();
+	int fpsSetY();
+#endif
+
 /*
 	CONFIG HANDLERS
 */
@@ -137,6 +172,7 @@ typedef struct{
 	int remote;
 	int wheel;
 	int sensors;
+	int fps;
 } Debug;
 
 Debug debug;
