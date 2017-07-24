@@ -41,6 +41,13 @@ typedef struct {
   tSensors port;
 } sensor;
 
+sensor initializeSensor(float sF, tSensors p){
+  sensor temp;
+  temp.scalingFactor = sF;
+  temp.port = p;
+  return temp; 
+}
+
 void updateSensorValue(sensor* s){
   s->valI = s->val;
   s->val = SensorValue(s->port) * s->scalingFactor;

@@ -6,6 +6,7 @@
 #pragma userControlDuration(1200)
 #include "Vex_Competition_Includes.c"
 
+#include "example_auton.c"
 #include "path/to/robotics-library/main.c"
 
 /*

@@ -10,7 +10,6 @@
 #include "bin/constants.h"
 #include "bin/functions.c"
 #include "../config.c" //You write this file
-#include "../auton.c"
 #include "bin/sensors.c"
 #include "bin/remote.c"
 #include "bin/slew.c"
@@ -50,12 +49,11 @@ void autonProcedure(){
   stopTask(usercontrol);
 	clearTimer(T1);
 
-	if (MODE == AUTO_A) autoA();
-  else if (MODE == AUTO_B) autoB();
-	else if (MODE == AUTO_C) autoC();
-	else if (MODE == PRG_SKILL) prgSkills();
-
 	#if USE_LCD == 1
+    if (MODE == AUTO_A) autoA();
+    else if (MODE == AUTO_B) autoB();
+  	else if (MODE == AUTO_C) autoC();
+  	else if (MODE == PRG_SKILL) prgSkills();
     lcdMessage();
   #endif
 }
