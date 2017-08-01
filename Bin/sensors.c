@@ -31,11 +31,11 @@ int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in mi
 	#endif
 }
 
-sensor initializeSensor(float sF, tSensors p){
+sensor* initializeSensor(float sF, tSensors p){
   sensor temp;
   temp.scalingFactor = sF;
   temp.port = p;
-  return temp;
+  return &temp;
 }
 
 void updateSensorValue(sensor* s){

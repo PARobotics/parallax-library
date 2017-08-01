@@ -94,6 +94,10 @@ typedef struct {
 } sensor;
 
 //FPS
+#ifndef USE_FPS
+#define USE_FPS  0
+#endif
+
 #if USE_FPS == 1
 	typedef struct{
 		int x; //robot's x coordinate (in 0.1 inches)
