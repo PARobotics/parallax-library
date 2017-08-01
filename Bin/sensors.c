@@ -35,6 +35,19 @@ sensor* initializeSensor(float sF, tSensors p){
   sensor temp;
   temp.scalingFactor = sF;
   temp.port = p;
+
+  pid PID;
+  temp.PID = PID;
+
+  return &temp;
+}
+
+sensor* initializeSensor(float sF, tSensors p, pid PID){
+  sensor temp;
+  temp.scalingFactor = sF;
+  temp.port = p;
+  temp.PID = PID;
+
   return &temp;
 }
 
@@ -55,5 +68,17 @@ void updateSensorValue(sensor* s){
     writeDebugStreamLine("Value: %d Speed: %d", s->val, s->speed);
   }
 }
+
+// ** PID **
+int sensorHold(sensor* s, int v_default, int target, int v_min, int v_max){
+  int vcmd = v_default - s->PID.kp * (s->val - target) - s->PID.kd * s->speed;
+  return BOUND(vcmd, v_min, v_max);
+}
+
+int sensorHold(sensor* s, int v_default, int target){
+  return sensorHold(s, v_default, target, -127, 127);
+}
+
+
 
 #endif

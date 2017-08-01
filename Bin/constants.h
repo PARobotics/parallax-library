@@ -82,6 +82,13 @@ int motorReq[kNumbOfTotalMotors];     //Array to hold requested speed for the mo
 #define RPM_393       627.2
 #define RPM_SE        360
 
+//PID
+typedef struct{
+	float kp;
+	float ki;
+	float kd;
+} pid;
+
 //Sensors
 typedef struct {
   int valI;
@@ -91,6 +98,7 @@ typedef struct {
   int speed;
   float scalingFactor;
   tSensors port;
+	pid PID;
 } sensor;
 
 //FPS
@@ -122,6 +130,12 @@ typedef struct {
 void sensorReset();
 int getMainBatteryVoltage();
 int getSecondBatteryVoltage();
+sensor* initializeSensor(float sF, tSensors p);
+sensor* initializeSensor(float sF, tSensors p, pid PID);
+void updateSensorValue(sensor* s);
+int getSensorVCMD(sensor* s, int pe, int se);
+int sensorHold(sensor* s, int v_default, int target, int v_min, int v_max);
+int sensorHold(sensor* s, int v_default, int target);
 
 //LCD
 void waitForPress();
