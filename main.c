@@ -10,6 +10,11 @@
 #include "bin/constants.h"
 #include "bin/functions.c"
 #include "../config.c" //You write this file
+
+#ifndef DEBUG
+  #define DEBUG 0
+#endif
+
 #include "bin/sensors.c"
 #include "bin/remote.c"
 #include "bin/slew.c"
@@ -25,16 +30,24 @@ void initialize(){
   #endif
 
   #if USE_PR_BUTTON == 1
-    if(debug.debug || debug.remote) writeDebugStreamLine("Setting up remote buttons");
+    #if DEBUG == 1 || DEBUG_REMOTE == 1
+      writeDebugStreamLine("Setting up remote buttons");
+    #endif
     setUpButtons();
-    if(debug.debug || debug.remote) writeDebugStreamLine("Successfully set up remote buttons");
+    #if DEBUG == 1 || DEBUG_REMOTE == 1
+      writeDebugStreamLine("Successfully set up remote buttons");
+    #endif
   #endif
 
   #if USE_SLEW == 1
-    if(debug.debug || debug.slew) writeDebugStreamLine("Slew task is enabled");
+    #if DEBUG == 1 || DEBUG_SLEW == 1
+      writeDebugStreamLine("Slew task is enabled");
+    #endif
     startTask(MotorSlewRateTask);
   #else
-    if(debug.debug || debug.slew) writeDebugStreamLine("Slew task is disabled.");
+    #if DEBUG == 1 || DEBUG_SLEW == 1
+      writeDebugStreamLine("Slew task is disabled");
+    #endif
     startTask(MotorsTask);
   #endif
 
@@ -69,18 +82,13 @@ void userControlUpdate(){
 
   #if USE_PR_BUTTON == 1
     updatePrbStatus();
-    if(debug.remote == 1 || debug.debug == 1){
-      for(int i = 0; i < NUM_PR_BUTTONS; i++) writeDebugStreamLine("Button %d: %d", i, getPrButton(i));
-    }
   #endif
-
-	if(debug.slew == 1 || debug.debug == 1){
-		for(int i = 0; i < 10; i++) writeDebugStreamLine("Motor %d: %3d", i, motor[i]);
-	}
 
   #ifdef BAILOUT_BUTTON
     if(vexRT[BAILOUT_BUTTON] == 1){
-      if(debug.debug || debug.remote) writeDebugStreamLine("Bailout button pressed");
+      #if DEBUG == 1 || DEBUG_REMOTE == 1
+        writeDebugStreamLine("Bailout button pressed");
+      #endif
 
       for(int i = 0; i < 10; i++) motor[i] = 0;
       BAILOUT = 1;

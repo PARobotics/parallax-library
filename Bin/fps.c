@@ -6,6 +6,10 @@
   Field positioning system: Tracks the wheel value and gyro value to figure out where the robot is
 */
 
+#ifndef DEBUG_FPS
+  #define DEBUG_FPS 0
+#endif
+
 #if USE_FPS == 1
 
 int fpsGetDegrees(){
@@ -32,10 +36,13 @@ int fpsSetY(int y){
   fps.y = y;
 }
 
-int fpsDebugCnt = 0;
+
 
 task fpsTask(){
-  if(debug.debug || debug.fps) writeDebugStreamLine("Starting fpsTask");
+  #if DEBUG == 1 || DEBUG_FPS == 1
+    writeDebugStreamLine("Starting fpsTask");
+    int fpsDebugCnt = 0;
+  #endif
 
   int lastLeft = 0;
   int lastRight = 0;
@@ -44,10 +51,12 @@ task fpsTask(){
   int currentX, currentY, currentR;
 
   while(true){
-    if((debug.debug || debug.fps) && fpsDebugCnt == 10){
-      writeDebugStreamLine("FPS | x: %d y: %d r: %d", fpsGetX(), fpsGetY(), fpsGetDegrees());
-      fpsDebugCnt = 0;
-    }
+    #if DEBUG == 1 ||  DEBUG_FPS == 1
+      if(fpsDebugCnt == 10){
+        writeDebugStreamLine("[FPS] x: %d y: %d r: %d", fpsGetX(), fpsGetY(), fpsGetDegrees());
+        fpsDebugCnt = 0;
+      }
+    #endif
 
     //Update sensors
     updateSensorValue(&fps.left);
@@ -64,9 +73,10 @@ task fpsTask(){
 
     fpsSetDegrees(currentR);
 
-    
+    #if DEBUG == 1 ||  DEBUG_FPS == 1
+      fpsDebugCnt++;
+    #endif
 
-    if(debug.debug || debug.fps) fpsDebugCnt++;
     wait1Msec(10);
   }
 }

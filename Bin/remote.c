@@ -1,6 +1,10 @@
 #ifndef REMOTE_C
 #define REMOTE_C
 
+#ifndef DEBUG_REMOTE
+  #define DEBUG_REMOTE 0
+#endif
+
 #if USE_PR_BUTTON == 1
 
   #define PUSHED_RELEASED 1
@@ -29,11 +33,15 @@
       if (sv == 0 && PRB[i].pushed == 1){
         PRB[i].pushed = 0;
         if(time1[T1] - PRB[i].timePushed >= 1000){
-          if(debug.debug || debug.remote) writeDebugStreamLine("PRB %d has been long held", i);
+          #if DEBUG == 1 || DEBUG_REMOTE == 1
+            writeDebugStreamLine("[REMOTE] Button %d has been long held", i);
+          #endif
           PRB[i].status = 2;
         }
         else {
-          if(debug.debug || debug.remote) writeDebugStreamLine("PRB %d has been pushed and released", i);
+          #if DEBUG == 1 || DEBUG_REMOTE == 1
+            writeDebugStreamLine("[REMOTE] Button %d has been pushed and released", i);
+          #endif
           PRB[i].status = 1;
         }
       }

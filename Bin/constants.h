@@ -180,19 +180,4 @@ void rotateBy(int ang, int tlimit);
 	int fpsSetY();
 #endif
 
-/*
-	CONFIG HANDLERS
-*/
-
-typedef struct{
-	int debug;
-	int slew;
-	int remote;
-	int wheel;
-	int sensors;
-	int fps;
-} Debug;
-
-Debug debug;
-
 #endif

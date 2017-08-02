@@ -1,6 +1,10 @@
 #ifndef SENSOR_C
 #define SENSOR_C
 
+#ifndef DEBUG_SENSORS
+  #define DEBUG_SENSORS 0
+#endif
+
 void sensorReset(){
   for(int i = 0; i < 28; i++){
     SensorValue[i] = 0;
@@ -58,9 +62,9 @@ void updateSensorValue(sensor* s){
 
   s->tI = s->tF;
 
-  if(debug.sensors == 1 || debug.debug == 1){
-    writeDebugStreamLine("Value: %d Speed: %d", s->val, s->speed);
-  }
+  #if DEBUG == 1 || DEBUG_SENSORS == 1
+    writeDebugStreamLine("[SENSORS] Sensor %d | Value: %d Speed: %d", s->port, s->val, s->speed);
+  #endif
 }
 
 // ** PID **

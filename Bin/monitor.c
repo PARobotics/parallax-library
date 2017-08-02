@@ -1,6 +1,10 @@
 #ifndef MONITOR_C
 #define MONITOR_C
 
+#ifndef DEBUG_WHEEL
+  #define DEBUG_WHEEL 0
+#endif
+
 #define WHEEL_DT  50
 
 int Wheel_t0 = time1[T1];

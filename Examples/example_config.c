@@ -69,6 +69,6 @@ void move(int V, int H, int X){
   DEBUGGING
 */
 
-debug.debug = 1; //Add your debugging toggles here
+#define DEBUG 1 //Add your debugging toggles here
 
 #endif

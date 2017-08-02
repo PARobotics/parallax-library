@@ -9,6 +9,10 @@
 
 */
 
+#ifndef DEBUG_SLEW
+  #define DEBUG_SLEW 0
+#endif
+
 #define MOTOR_PWM_0 10       //pwm value when rpm ready to take off from 0
 #define MOTOR_PWM_1 90       //pwm value when rpm almost has peaked
 
@@ -99,6 +103,10 @@ int pwmzone(int pwm){
           motor[i] = MAX(req, now-MOTOR_SLEW[i]);
         }
       }
+
+      #if DEBUG == 1 || DEBUG_SLEW == 1
+        writeDebugStreamLine("[SLEW] Motor %d | Val: %3d Req: %3d", i, motor[i], motorReq[i]);
+      #endif
 
       wait1Msec(10);
     }
