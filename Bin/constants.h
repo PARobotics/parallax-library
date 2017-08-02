@@ -193,6 +193,4 @@ typedef struct{
 	int fps;
 } Debug;
 
-Debug debug;
-
 #endif
