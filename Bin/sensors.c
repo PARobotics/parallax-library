@@ -68,15 +68,25 @@ void updateSensorValue(sensor* s){
 }
 
 // ** PID **
-int sensorHold(sensor* s, int v_default, int target, int v_min, int v_max){
+int sensorHold(sensor* s, int target, int v_default, int v_min, int v_max){
   int vcmd = v_default - s->PID.kp * (s->val - target) - s->PID.kd * s->speed;
   return BOUND(vcmd, v_min, v_max);
 }
 
-int sensorHold(sensor* s, int v_default, int target){
-  return sensorHold(s, v_default, target, -127, 127);
+int sensorHold(sensor* s, int target, int v_default){
+  return sensorHold(s, target, v_default, -127, 127);
 }
 
+int sensorPControl(sensor* s, int target){
+  int vcmd = s->PID.kp * (target - s->val);
 
+  return BOUND(vcmd, -127, 127);
+}
+
+int sensorPDControl(sensor* s, int target, int v_target){
+  int vcmd = s->PID.kp * (target - s->val) + s->PID.kd * (v_target - s->speed);
+
+  return BOUND(vcmd, -127, 127);
+}
 
 #endif

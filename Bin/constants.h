@@ -15,6 +15,7 @@
 #define MANUAL_DOWN     3
 #define HOLD            4
 #define CARRY           5
+#define MOVE            6
 #define IN              1
 #define OUT            -1
 #define OPEN            1
@@ -136,6 +137,8 @@ void updateSensorValue(sensor* s);
 int getSensorVCMD(sensor* s, int pe, int se);
 int sensorHold(sensor* s, int v_default, int target, int v_min, int v_max);
 int sensorHold(sensor* s, int v_default, int target);
+int sensorPControl(sensor* s, int target);
+int sensorPDControl(sensor* s, int target, int v_target);
 
 //LCD
 void waitForPress();
