@@ -13,6 +13,7 @@
 #define DOWN           -1
 #define MANUAL_UP       2
 #define MANUAL_DOWN     3
+#define MANUAL 15
 #define HOLD            4
 #define CARRY           5
 #define MOVE            6
