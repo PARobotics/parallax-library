@@ -55,12 +55,12 @@ void updateSensorValue(sensor* s){
 
   s->tf = time1[T1];
 
-  int deltaT = s->tF - s->tI;
+  int deltaT = s->tf - s->tI;
   if(deltaT == 0) deltaT = 1;
 
   s->speed = (s->val - s->valI) / deltaT;
 
-  s->tI = s->tF;
+  s->tI = s->tf;
 
   #if DEBUG == 1 || DEBUG_SENSORS == 1
     writeDebugStreamLine("[SENSORS] Sensor %d | Value: %d Speed: %d", s->port, s->val, s->speed);

@@ -135,8 +135,8 @@ void initializeSensor(sensor* s, float sF, tSensors p);
 void initializeSensor(sensor* s, float sF, tSensors p, pid PID);
 void updateSensorValue(sensor* s);
 int getSensorVCMD(sensor* s, int pe, int se);
-int sensorHold(sensor* s, int v_default, int target, int v_min, int v_max);
-int sensorHold(sensor* s, int v_default, int target);
+int sensorHold(sensor* s, int target, int v_default, int v_min, int v_max);
+int sensorHold(sensor* s, int target, int v_default);
 int sensorPControl(sensor* s, int target);
 int sensorPDControl(sensor* s, int target, int v_target);
 

@@ -9,9 +9,6 @@
 
 #include "bin/constants.h"
 #include "bin/functions.c"
-
-Debug debug;
-
 #include "../config.c" //You write this file
 
 #ifndef DEBUG
