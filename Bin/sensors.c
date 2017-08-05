@@ -43,7 +43,7 @@ void initializeSensor(sensor* s, float sF, tSensors p){
   s->PID = PID;
 }
 
-void initializeSensor(sensor* s, float sF, tSensors p, pid PID){
+void initializeSensor(sensor* s, float sF, tSensors p, pid* PID){
   s->scalingFactor = sF;
   s->port = p;
   s->PID = PID;
@@ -69,8 +69,8 @@ void updateSensorValue(sensor* s){
 
 // ** PID **
 int sensorHold(sensor* s, int target, int v_default, int v_min, int v_max){
-  writeDebugStreamLine("%.1f %.1f %d %d", s->PID.kp, s->PID.kd, s->val, s->speed);
-  int vcmd = v_default - s->PID.kp * (s->val - target) - s->PID.kd * s->speed;
+  writeDebugStreamLine("%.1f %.1f %d %d", s->PID->kp, s->PID->kd, s->val, s->speed);
+  int vcmd = v_default - s->PID->kp * (s->val - target) - s->PID->kd * s->speed;
   return BOUND(vcmd, v_min, v_max);
 }
 

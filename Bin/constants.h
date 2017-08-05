@@ -100,7 +100,7 @@ typedef struct {
   int speed;
   float scalingFactor;
   tSensors port;
-	pid PID;
+	pid* PID;
 } sensor;
 
 //FPS
