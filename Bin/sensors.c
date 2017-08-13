@@ -38,9 +38,6 @@ int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in mi
 void initializeSensor(sensor* s, float sF, tSensors p){
   s->scalingFactor = sF;
   s->port = p;
-
-  pid PID;
-  s->PID = PID;
 }
 
 void initializeSensor(sensor* s, float sF, tSensors p, pid* PID){
@@ -58,7 +55,7 @@ void updateSensorValue(sensor* s){
   int deltaT = s->tf - s->tI;
   if(deltaT == 0) deltaT = 1;
 
-  s->speed = (s->val - s->valI) / deltaT;
+  s->speed = (s->val - s->valI) * 1000 / deltaT;
 
   s->tI = s->tf;
 
@@ -69,7 +66,6 @@ void updateSensorValue(sensor* s){
 
 // ** PID **
 int sensorHold(sensor* s, int target, int v_default, int v_min, int v_max){
-  writeDebugStreamLine("%.1f %.1f %d %d", s->PID->kp, s->PID->kd, s->val, s->speed);
   int vcmd = v_default - s->PID->kp * (s->val - target) - s->PID->kd * s->speed;
   return BOUND(vcmd, v_min, v_max);
 }
@@ -79,13 +75,13 @@ int sensorHold(sensor* s, int target, int v_default){
 }
 
 int sensorPControl(sensor* s, int target){
-  int vcmd = s->PID.kp * (target - s->val);
+  int vcmd = s->PID->kp * (target - s->val);
 
   return BOUND(vcmd, -127, 127);
 }
 
 int sensorPDControl(sensor* s, int target, int v_target){
-  int vcmd = s->PID.kp * (target - s->val) + s->PID.kd * (v_target - s->speed);
+  int vcmd = s->PID->kp * (target - s->val) + s->PID->kd * (v_target - s->speed);
 
   return BOUND(vcmd, -127, 127);
 }
