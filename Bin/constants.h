@@ -5,6 +5,7 @@
 #define NO              0
 #define START					  1
 #define STOP            0
+#define MONITOR         2
 #define LEFT           -1
 #define RIGHT           1
 #define FWD             1
@@ -47,32 +48,6 @@ string lcdStrMode;             // lcdStr for Mode
 //Bailout
 int BAILOUT = 0;
 
-//Motor Monitor
-#define M_PI 3.14159265358979323846
-#define X_POS 0
-#define Y_POS 1
-#define THETA 2
-
-int WHEEL_MONITOR = 0;
-// .1 inch, .,1deg as units
-typedef struct {
-	int    raw      [3] ;  //raw sensor data [l-wheel, r-wheel, gyro]
-	int    raw_last [3] ;  //
-	float  pos      [3] ;
-	float  move     [3] ;  // -- track dist, lateral and rotation from pre
-	float  pos_pre  [3] ;
-	float  pos_delta[3] ;  // delta X, Y, R, Rgyro
-	float  speed    [2] ;
-  int    method       ;  // method for detla_R   1: use gyro, 2: use wheels,
-  float  pi2d         ;           // .1 deg per pi
-  float  tick2inch    ;   // 0.1 inch per tick
-  int    t_last       ;
-  int    dbg_cnt      ;
-  int    DT           ;
-  int    DX           ;               // 12" between the wheel
-} drv_train;
-drv_train DRV;                      // create drive train data structure
-
 /*
 	CONTROL, SENSORS
 */
@@ -103,22 +78,23 @@ typedef struct {
 	pid* PID;
 } sensor;
 
-//FPS
-#ifndef USE_FPS
-#define USE_FPS  0
-#endif
+//Motor Monitor
+#define M_PI 3.14159265358979323846
+int MOVE_MONITOR = STOP;
 
-#if USE_FPS == 1
-	typedef struct{
-		int x; //robot's x coordinate (in 0.1 inches)
-		int y; //robot's y coordinate (in 0.1 inches)
-		int r; //robot's angle (in 0.1 degrees)
-		sensor left; //sensor measuring the left side of the base
-		sensor right; //sensor measuring the right side of the base
-		sensor gyro; //gyro sensor measuring rotation
-	} FPS;
+#if USE_MOVE == 1
+	typedef struct{ //Structure holding all details fpor the drive train
+		 int x;
+		 int y;
+		 int r;
+		 sensor* left;
+		 sensor* right;
+		 sensor* gyro;
+		 float move[3];
+		 float degreesToRadians;
+	} DRIVE;
 
-	FPS fps;
+	DRIVE drive;
 #endif
 
 /*
@@ -174,14 +150,16 @@ void moveCurveBkwd(int level);
 void moveBy(int dist, int tlimit);
 void rotateBy(int ang, int tlimit);
 
-//FPS
-#if USE_FPS == 1
-	int fpsGetDegrees();
-	int fpsGetX();
-	int fpsGetY();
-	int fpsSetDegrees();
-	int fpsSetX();
-	int fpsSetY();
+#if USE_MOVE == 1
+	void resetDrive(int xNew, int yNew, int rNew);
+	void refreshDrive();
+	void initializeDrive(int x0, int y0, int r,0 sensor* leftS, sensor* rightS, sensor* gyroS);
+	int driveGetX();
+	int driveGetY();
+	int driveGetDegrees();
+	float driveGetVerticalMovement();
+	float driveGetLateralMovement();
+	float driveGetRotationalMovement();
 #endif
 
 #endif

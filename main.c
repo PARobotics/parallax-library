@@ -19,6 +19,7 @@
 #include "bin/remote.c"
 #include "bin/slew.c"
 #include "bin/lcd.c"
+#include "bin/move.c"
 
 void initialize(){
   bStopTasksBetweenModes = false;
@@ -55,8 +56,8 @@ void initialize(){
     startTask(MotorMonitor);
   #endif
 
-  #if USE_FPS == 1
-    startTask(fpsTask);
+  #if USE_MOVE == 1
+    startTask(moveTask);
   #endif
 
   preAutonProcedure();
