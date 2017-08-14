@@ -139,18 +139,18 @@ void userControlProcedure();
 void preAutonProcedure();
 
 //Movement
-void move(int V, int H, int X);
-void moveStop();
-void moveFwd();
-void moveBkwd();
-void rotate(int vol);
-void strafe(int vol);
-void moveCurve(int level);
-void moveCurveBkwd(int level);
-void moveBy(int dist, int tlimit);
-void rotateBy(int ang, int tlimit);
-
 #if USE_MOVE == 1
+	void move(int V, int H, int X);
+	void moveStop();
+	void moveFwd();
+	void moveBkwd();
+	void rotate(int vol);
+	void strafe(int vol);
+	void moveCurve(int level);
+	void moveCurveBkwd(int level);
+	void moveBy(int dist, int tlimit);
+	void strafeBy(int dist, int tlimit);
+	void rotateBy(int ang, int tlimit);
 	void resetDrive(int xNew, int yNew, int rNew);
 	void refreshDrive();
 	void initializeDrive(int x0, int y0, int r,0 sensor* leftS, sensor* rightS, sensor* gyroS);
