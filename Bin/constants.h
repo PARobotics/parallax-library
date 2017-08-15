@@ -153,7 +153,7 @@ void preAutonProcedure();
 	void rotateBy(int ang, int tlimit);
 	void resetDrive(int xNew, int yNew, int rNew);
 	void refreshDrive();
-	void initializeDrive(int x0, int y0, int r,0 sensor* leftS, sensor* rightS, sensor* gyroS);
+	void initializeDrive(float d2r, sensor* leftS, sensor* rightS, sensor* gyroS);
 	int driveGetX();
 	int driveGetY();
 	int driveGetDegrees();

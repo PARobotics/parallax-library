@@ -119,10 +119,7 @@ void rotateBy(int ang, int tlimit){ //Ang in degrees, tlimit in milliseconds
   MOVE TASK
 */
 
-void initializeDrive(int x0, int y0, int r, float d2r, sensor* leftS, sensor* rightS, sensor* gyroS){
-  drive.x = x0;
-  drive.y = y0;
-  drive.r = r0;
+void initializeDrive(float d2r, sensor* leftS, sensor* rightS, sensor* gyroS){
   drive.left = leftS;
   drive.right = rightS;
   drive.gyro = gyroS;

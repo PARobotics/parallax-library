@@ -52,10 +52,6 @@ void initialize(){
     startTask(MotorsTask);
   #endif
 
-  #if USE_MONITOR == 1
-    startTask(MotorMonitor);
-  #endif
-
   #if USE_MOVE == 1
     startTask(moveTask);
   #endif
