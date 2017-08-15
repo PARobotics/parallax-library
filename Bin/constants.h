@@ -82,20 +82,18 @@ typedef struct {
 #define M_PI 3.14159265358979323846
 int MOVE_MONITOR = STOP;
 
-#if USE_MOVE == 1
-	typedef struct{ //Structure holding all details fpor the drive train
-		 int x;
-		 int y;
-		 int r;
-		 sensor* left;
-		 sensor* right;
-		 sensor* gyro;
-		 float move[3];
-		 float degreesToRadians;
-	} DRIVE;
+typedef struct{ //Structure holding all details fpor the drive train
+	int x;
+	int y;
+	int r;
+	sensor* left;
+	sensor* right;
+	sensor* gyro;
+	float move[3];
+	float degreesToRadians;
+} DRIVE;
 
-	DRIVE drive;
-#endif
+DRIVE drive;
 
 /*
 	Wrapper Functions
