@@ -190,7 +190,7 @@ task moveTask(){
     else if(MOVE_MONITOR == MONITOR){
       #if DEBUG == 1 || DEBUG_MOVE == 1
         if(moveDebugCnt == 10){
-          writeDebugStreamLine("[MOVE] %f %f %f", drive.move[0], drive.move[1], drive.move[2]);
+          writeDebugStreamLine("[MOVE] %f %f %f %d %d %d", drive.move[0], drive.move[1], drive.move[2], drive.x, drive.y, drive.r);
           moveDebugCnt = 0;
         }
       #endif
