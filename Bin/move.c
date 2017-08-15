@@ -5,6 +5,10 @@
   #define DEBUG_MOVE 0
 #endif
 
+#ifndef USE_MOVE
+  #define USE_MOVE 0
+#endif
+
 #if USE_MOVE == 1
 
 /*
