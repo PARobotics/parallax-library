@@ -31,6 +31,9 @@
 #define TOGGLE          2
 #define CLOCKWISE       1
 #define COUNTERCLOCKWISE -1
+#define ON 1
+#define OFF 0
+#define BLINK 3
 
 // LCD
 int MODE = AUTO_A;
@@ -106,6 +109,7 @@ DRIVE drive;
 void sensorReset();
 int getMainBatteryVoltage();
 int getSecondBatteryVoltage();
+void makeLED(tSensors p, int status);
 void initializeSensor(sensor* s, float sF, tSensors p);
 void initializeSensor(sensor* s, float sF, tSensors p, pid PID);
 void updateSensorValue(sensor* s);

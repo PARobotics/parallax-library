@@ -19,6 +19,8 @@ void sensorReset(){
   nMotorEncoder[I2C_8] = 0;
 }
 
+// ** Batteries **
+
 int getMainBatteryVoltage(){ //Returns voltage of main battery in millivolts
   return nImmediateBatteryLevel;
 }
@@ -34,6 +36,20 @@ int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in mi
 		return 0;
 	#endif
 }
+
+// ** LEDS **
+
+void makeLED(tSensors p, int status){
+  if(status == TOGGLE){
+    if(SensorValue[p] == ON) SensorValue[p] = OFF;
+    else SensorValue[p] = ON;
+  }
+  else{
+    SensorValue[p] = status;
+  }
+}
+
+// ** Sensors Object **
 
 void initializeSensor(sensor* s, float sF, tSensors p){
   s->scalingFactor = sF;
