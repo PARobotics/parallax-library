@@ -165,7 +165,7 @@ float driveGetRotationalMovement(){
 }
 
 task moveTask(){
-  #if DEBUG == 1|| DEBUG_MOVE == 1
+  #if DEBUG == 1 || DEBUG_MOVE == 1
     writeDebugStreamLine("Starting moveTask");
     int moveDebugCnt = 0;
   #endif
@@ -184,6 +184,7 @@ task moveTask(){
       MOVE_MONITOR = MONITOR;
 
       #if DEBUG == 1 || DEBUG_MOVE == 1
+      	writeDebugStreamLine("Move monitor started");
         moveDebugCnt = 0;
       #endif
     }

@@ -26,10 +26,6 @@ void initialize(){
   clearTimer(T1);
   sensorReset();
 
-  #if USE_LCD == 1
-    lcdSelection();
-  #endif
-
   #if USE_PR_BUTTON == 1
     #if DEBUG == 1 || DEBUG_REMOTE == 1
       writeDebugStreamLine("Setting up remote buttons");
@@ -54,6 +50,10 @@ void initialize(){
 
   #if USE_MOVE == 1
     startTask(moveTask);
+  #endif
+
+  #if USE_LCD == 1
+    lcdSelection();
   #endif
 
   preAutonProcedure();
