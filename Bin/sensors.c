@@ -41,11 +41,14 @@ int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in mi
 
 void makeLED(tSensors p, int status){
   if(status == TOGGLE){
-    if(SensorValue[p] == ON) SensorValue[p] = OFF;
-    else SensorValue[p] = ON;
+    if(SensorValue[p]) SensorValue[p] = false;
+    else SensorValue[p] = true;
   }
-  else{
-    SensorValue[p] = status;
+  else if(status == OFF){
+    SensorValue[p] = false;
+  }
+  else if(status == ON){
+    SensorValue[p] = true;
   }
 }
 
