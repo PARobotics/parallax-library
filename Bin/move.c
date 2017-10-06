@@ -95,7 +95,7 @@ void moveBy(int dist, int tlimit){ //Dist in inches, tlimit in milliseconds
     if(vexRT[BAILOUT_BUTTON] == 1 || isTimedOut(tnow + tlimit) == 1) return;
     else if(fabs(driveGetVerticalMovement()) >= fabs(dist)) return;
 
-    wait1Msec(25);
+    wait1Msec(10);
   }
 }
 
@@ -105,7 +105,7 @@ void strafeBy(int dist, int tlimit){ //Dist in inches, tlimit in milliseconds
     if(vexRT[BAILOUT_BUTTON] == 1 || isTimedOut(tnow + tlimit) == 1) return;
     else if(fabs(driveGetLateralMovement()) >= fabs(dist)) return;
 
-    wait1Msec(25);
+    wait1Msec(10);
   }
 }
 
@@ -115,7 +115,7 @@ void rotateBy(int ang, int tlimit){ //Ang in degrees, tlimit in milliseconds
     if(vexRT[BAILOUT_BUTTON] == 1 || isTimedOut(tnow + tlimit) == 1) return;
     else if(fabs(driveGetRotationalMovement()) >= fabs(ang)) return;
 
-    wait1Msec(25);
+    wait1Msec(10);
   }
 }
 
