@@ -99,8 +99,8 @@ int sensorPControl(sensor* s, int target){
   return BOUND(vcmd, -127, 127);
 }
 
-int sensorPDControl(sensor* s, int target, int v_target){
-  int vcmd = s->PID->kp * (target - s->val) + s->PID->kd * (v_target - s->speed);
+int sensorPDControl(sensor* s, int to_target, int v_target){
+  int vcmd = s->PID->kp * to_target + s->PID->kd * (v_target - s->speed);
 
   return BOUND(vcmd, -127, 127);
 }

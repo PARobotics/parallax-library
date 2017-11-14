@@ -20,12 +20,16 @@ void moveStop(){
   move(0, 0, 0);
 }
 
+void moveVertical(int vol){
+  move(vol, 0, 0);
+}
+
 void moveFwd(){
-  move(127, 0, 0);
+  moveVertical(127);
 }
 
 void moveBkwd(){
-  move(-127, 0, 0);
+  moveVertical(-127);
 }
 
 void rotate(int vol){
@@ -95,7 +99,7 @@ void moveBy(int dist, int tlimit){ //Dist in inches, tlimit in milliseconds
     if(vexRT[BAILOUT_BUTTON] == 1 || isTimedOut(tnow + tlimit) == 1) return;
     else if(fabs(driveGetVerticalMovement()) >= fabs(dist)) return;
 
-    wait1Msec(10);
+    wait1Msec(2);
   }
 }
 
@@ -105,7 +109,7 @@ void strafeBy(int dist, int tlimit){ //Dist in inches, tlimit in milliseconds
     if(vexRT[BAILOUT_BUTTON] == 1 || isTimedOut(tnow + tlimit) == 1) return;
     else if(fabs(driveGetLateralMovement()) >= fabs(dist)) return;
 
-    wait1Msec(10);
+    wait1Msec(2);
   }
 }
 
@@ -115,7 +119,104 @@ void rotateBy(int ang, int tlimit){ //Ang in degrees, tlimit in milliseconds
     if(vexRT[BAILOUT_BUTTON] == 1 || isTimedOut(tnow + tlimit) == 1) return;
     else if(fabs(driveGetRotationalMovement()) >= fabs(ang)) return;
 
-    wait1Msec(10);
+    wait1Msec(2);
+  }
+}
+
+// Braking functions (these use a PID to make them more accurate)
+void moveByPID(int dist, int tlimit){
+  int dir = SIGN(dist);
+  int tnow0 = time1[T1];
+  float to_target;
+  int vcmd;
+
+  while (true) {
+    if(isTimedOut(tnow0 + tlimit) == 1 || vexRT[BAILOUT_BUTTON] == 1 ){
+      return;
+    }
+
+    to_target = fabs(dist - driveGetVerticalMovement());
+
+    if (to_target > 60) { //If more than 6 inches away, go full speed
+      moveVertical(dir * 127);
+    }
+    else if (to_target > MOVEY_DIST0) {
+      vcmd = dir * (sensorPDControl(&drive.left, to_target, 0) + sensorPDControl(&drive.right, to_target, 0)) / 2; //Average out velocity on both sides
+      moveVertical(vcmd);
+    }
+    else {
+      moveVertical(-20 * dir);
+      wait1Msec(100);
+      moveStop();
+      return;
+    }
+    wait1Msec(2);
+  }
+  return;
+}
+
+void strafeByPID(int dist, int tlimit){
+  int dir = SIGN(dist);
+  int tnow0 = time1[T1];
+  float to_target;
+  int vcmd;
+
+  while (true) {
+    if(isTimedOut(tnow0 + tlimit) == 1 || vexRT[BAILOUT_BUTTON] == 1 ) {
+      return;
+    }
+
+    to_target = fabs(dist - driveGetLateralMovement());
+
+    if (to_target > 60) { //If more than 6 inches away, go full speed
+      strafe(dir * 127);
+    }
+    else if (to_target > MOVEY_DIST0) {
+      vcmd = dir * (sensorPDControl(&drive.left, to_target, 0) + sensorPDControl(&drive.right, to_target, 0)) / 2; //Average out velocity on both sides
+      strafe(vcmd);
+    }
+    else {
+      strafe(-20 * dir);
+      wait1Msec(100);
+      moveStop();
+      return;
+    }
+    wait1Msec(2);
+  }
+  return;
+}
+
+void rotateByPID(int ang, int tlimit){
+  int dir = -SIGN(ang);
+  ang = fabs(ang);
+
+  int vcmd;
+  int tnow0 = time1[T1];
+  float to_target;
+
+  while (true) {
+    if(isTimedOut(tnow0 + tlimit) == 1 || vexRT[BAILOUT_BUTTON] == 1 ) {
+      return;
+    }
+
+    to_target = fabs(dist - driveGetRotationalMovement());
+
+    if(to_target > 300){ //Go full speed ahead if there are 30 degrees to go
+      rotate(dir * 127);
+      return;
+    }
+    else if(to_target > 50) {
+      vcmd = dir * (sensorPDControl(&drive.left, to_target, 0) + sensorPDControl(&drive.right, to_target, 0)) / 2; //Average out velocity on both sides
+      rotate(vcmd);
+    }
+    else {
+      rotate(-20 * dir);
+      wait1Msec(100);
+      moveStop();
+      return;
+    }
+
+    wait1Msec(2);
   }
 }
 
@@ -228,7 +329,7 @@ task moveTask(){
       refreshDrive();
     }
 
-    wait1Msec(10);
+    wait1Msec(2);
   }
 }
 
