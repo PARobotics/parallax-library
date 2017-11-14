@@ -124,8 +124,7 @@ void rotateBy(int ang, int tlimit){ //Ang in degrees, tlimit in milliseconds
 }
 
 // Braking functions (these use a PID to make them more accurate)
-void moveByPID(int dist, int tlimit){
-  int dir = SIGN(dist);
+void moveByPID(int dist, int dir, int tlimit){
   int tnow0 = time1[T1];
   float to_target;
   int vcmd;
@@ -155,8 +154,7 @@ void moveByPID(int dist, int tlimit){
   return;
 }
 
-void strafeByPID(int dist, int tlimit){
-  int dir = SIGN(dist);
+void strafeByPID(int dist, int dir, int tlimit){
   int tnow0 = time1[T1];
   float to_target;
   int vcmd;
@@ -186,10 +184,7 @@ void strafeByPID(int dist, int tlimit){
   return;
 }
 
-void rotateByPID(int ang, int tlimit){
-  int dir = -SIGN(ang);
-  ang = fabs(ang);
-
+void rotateByPID(int ang, int dir, int tlimit){
   int vcmd;
   int tnow0 = time1[T1];
   float to_target;
