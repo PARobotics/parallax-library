@@ -142,6 +142,10 @@ void preAutonProcedure();
 
 //Movement
 void move(int V, int H, int X);
+void moveVertical(int vol);
+void moveByPID(int dist, int dir, int tlimit);
+void strafeByPID(int dist, int dir, int tlimit);
+void rotateByPID(int ang, int dir, int tlimit);
 void moveStop();
 void moveFwd();
 void moveBkwd();
