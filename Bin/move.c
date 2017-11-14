@@ -206,7 +206,7 @@ void rotateByPID(int ang, int tlimit){
       return;
     }
     else if(to_target > 50) {
-      vcmd = dir * (sensorPDControl(&drive.left, to_target, 0) + sensorPDControl(&drive.right, to_target, 0)) / 2; //Average out velocity on both sides
+      vcmd = dir * sensorPDControl(&drive.gyro, to_target, 0);
       rotate(vcmd);
     }
     else {
