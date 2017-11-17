@@ -134,23 +134,32 @@ void moveByPID(int dist, int dir, int tlimit){
       return;
     }
 
-    to_target = fabs(dist - driveGetVerticalMovement());
+    to_target = dist - fabs(driveGetVerticalMovement());
 
     if (to_target > 60) { //If more than 6 inches away, go full speed
-      moveVertical(dir * 127);
+    	vcmd = dir * 127
+      moveVertical(vcmd);
     }
     else if (to_target > 30) {
       vcmd = dir * (sensorPDControl(drive.left, to_target, 0) + sensorPDControl(drive.right, to_target, 0)) / 2; //Average out velocity on both sides
       moveVertical(vcmd);
     }
     else {
-      moveVertical(-20 * dir);
-      wait1Msec(100);
+    	writeDebugStreamLine("STARTED BRAKING");
+    	vcmd = -20 * dir;
+      moveVertical(vcmd);
+      writeDebugStreamLine("[MOVE] %4d %4d %3d", to_target, drive.left->speed, vcmd);
+      wait1Msec(150);
       moveStop();
       return;
     }
+
+    writeDebugStreamLine("[MOVE] %4d %4d %3d", to_target, drive.left->speed, vcmd);
+
     wait1Msec(2);
   }
+
+  writeDebugStream("[MOVE ENDED]");
   return;
 }
 
@@ -194,25 +203,33 @@ void rotateByPID(int ang, int dir, int tlimit){
       return;
     }
 
-    to_target = fabs(ang - driveGetRotationalMovement());
+    to_target = ang - fabs(driveGetRotationalMovement());
 
     if(to_target > 300){ //Go full speed ahead if there are 30 degrees to go
-      rotate(dir * 127);
-      return;
+    	vcmd = 127 * dir;
+      rotate(vcmd);
     }
     else if(to_target > 50) {
       vcmd = dir * sensorPDControl(drive.gyro, to_target, 0);
       rotate(vcmd);
     }
     else {
-      rotate(-20 * dir);
-      wait1Msec(100);
+    	writeDebugStreamLine("[STARTED BRAKING]");
+    	vcmd = -20 * dir;
+    	writeDebugStreamLine("[MOVE] %4d %4d %3d", to_target, drive.gyro->speed, vcmd);
+      rotate(vcmd);
+      wait1Msec(150);
       moveStop();
       return;
     }
 
+    writeDebugStreamLine("[MOVE] %4d %4d %3d", to_target, drive.gyro->speed, vcmd);
+
     wait1Msec(2);
   }
+
+  writeDebugStream("[MOVE ENDED]");
+  return;
 }
 
 /*
