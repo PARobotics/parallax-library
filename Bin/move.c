@@ -139,8 +139,8 @@ void moveByPID(int dist, int dir, int tlimit){
     if (to_target > 60) { //If more than 6 inches away, go full speed
       moveVertical(dir * 127);
     }
-    else if (to_target > MOVEY_DIST0) {
-      vcmd = dir * (sensorPDControl(&drive.left, to_target, 0) + sensorPDControl(&drive.right, to_target, 0)) / 2; //Average out velocity on both sides
+    else if (to_target > 30) {
+      vcmd = dir * (sensorPDControl(drive.left, to_target, 0) + sensorPDControl(drive.right, to_target, 0)) / 2; //Average out velocity on both sides
       moveVertical(vcmd);
     }
     else {
@@ -169,8 +169,8 @@ void strafeByPID(int dist, int dir, int tlimit){
     if (to_target > 60) { //If more than 6 inches away, go full speed
       strafe(dir * 127);
     }
-    else if (to_target > MOVEY_DIST0) {
-      vcmd = dir * (sensorPDControl(&drive.left, to_target, 0) + sensorPDControl(&drive.right, to_target, 0)) / 2; //Average out velocity on both sides
+    else if (to_target > 30) {
+      vcmd = dir * (sensorPDControl(drive.left, to_target, 0) + sensorPDControl(drive.right, to_target, 0)) / 2; //Average out velocity on both sides
       strafe(vcmd);
     }
     else {
@@ -194,14 +194,14 @@ void rotateByPID(int ang, int dir, int tlimit){
       return;
     }
 
-    to_target = fabs(dist - driveGetRotationalMovement());
+    to_target = fabs(ang - driveGetRotationalMovement());
 
     if(to_target > 300){ //Go full speed ahead if there are 30 degrees to go
       rotate(dir * 127);
       return;
     }
     else if(to_target > 50) {
-      vcmd = dir * sensorPDControl(&drive.gyro, to_target, 0);
+      vcmd = dir * sensorPDControl(drive.gyro, to_target, 0);
       rotate(vcmd);
     }
     else {
