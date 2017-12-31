@@ -28,35 +28,4 @@ bool isBailedOut(){ // Check if bailed out
   #endif
 }
 
-// ** Batteries **
-int getMainBatteryVoltage(){ //Returns voltage of main battery in millivolts
-  return nImmediateBatteryLevel;
-}
-
-int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in millivolts
-	#ifndef USE_SECOND_BATTERY
-	#define USE_SECOND_BATTERY 0
-	#endif
-
-	#if USE_SECOND_BATTERY == 1
-		return SensorValue(PWR) * 1000 / 286;
-	#else
-		return 0;
-	#endif
-}
-
-// ** LED **
-void makeLED(tSensors p, int status){
-  if(status == TOGGLE) {
-    if(SensorValue[p]) SensorValue[p] = false;
-    else SensorValue[p] = true;
-  }
-  else if(status == OFF){
-    SensorValue[p] = false;
-  }
-  else if(status == ON){
-    SensorValue[p] = true;
-  }
-}
-
 #endif
