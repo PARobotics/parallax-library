@@ -19,39 +19,6 @@ void sensorReset(){
   nMotorEncoder[I2C_8] = 0;
 }
 
-// ** Batteries **
-
-int getMainBatteryVoltage(){ //Returns voltage of main battery in millivolts
-  return nImmediateBatteryLevel;
-}
-
-int getSecondBatteryVoltage(){ //Returns voltage of power expander battery in millivolts
-	#ifndef USE_SECOND_BATTERY
-	#define USE_SECOND_BATTERY 0
-	#endif
-
-	#if USE_SECOND_BATTERY == 1
-		return SensorValue(PWR) * 1000 / 286;
-	#else
-		return 0;
-	#endif
-}
-
-// ** LEDS **
-
-void makeLED(tSensors p, int status){
-  if(status == TOGGLE){
-    if(SensorValue[p]) SensorValue[p] = false;
-    else SensorValue[p] = true;
-  }
-  else if(status == OFF){
-    SensorValue[p] = false;
-  }
-  else if(status == ON){
-    SensorValue[p] = true;
-  }
-}
-
 // ** Sensors Object **
 
 void initializeSensor(sensor* s, float sF, tSensors p){
@@ -65,7 +32,7 @@ void initializeSensor(sensor* s, float sF, tSensors p, pid* PID){
   s->PID = PID;
 }
 
-void updateSensorValue(sensor* s){
+void updateSensor(sensor* s){
   s->valI = s->val;
   s->val = SensorValue(s->port) * s->scalingFactor;
 
@@ -77,6 +44,14 @@ void updateSensorValue(sensor* s){
   s->speed = (s->val - s->valI) * 1000 / deltaT;
 
   s->tI = s->tf;
+
+  #if DEBUG == 1 || DEBUG_SENSORS == 1
+    writeDebugStreamLine("[SENSORS] Sensor %d | Value: %d Speed: %d", s->port, s->val, s->speed);
+  #endif
+}
+
+void updateSensorValue(sensor* s){
+  s->val = SensorValue(s->port) * s->scalingFactor;
 
   #if DEBUG == 1 || DEBUG_SENSORS == 1
     writeDebugStreamLine("[SENSORS] Sensor %d | Value: %d Speed: %d", s->port, s->val, s->speed);

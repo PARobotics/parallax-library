@@ -4,9 +4,6 @@
 /*
   SLEW.C
   This file implements a slew rate control, so instead of changing motor voltage suddenly, it gradually (but not slowly) changes the voltage.
-
-  USAGE
-
 */
 
 #ifndef DEBUG_SLEW
