@@ -77,6 +77,8 @@ int pwmzone(int pwm){
           continue;
         }
 
+        if(MOTOR_SLEW[i] == 255) motor[i] = motorReq[i];
+
         req = motorReq[i]; //What we want the voltage to be
         now = motor[i]; //What the voltage is
 
