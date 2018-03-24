@@ -19,10 +19,7 @@ bool isTimedOut(int tstop){ // Check if timed out
 
 bool isBailedOut(){ // Check if bailed out
   #ifdef BAILOUT_BUTTON
-    if (vexRT[BAILOUT_BUTTON] == 1) {
-      return true;
-    }
-    return false;
+      return vexRT[BAILOUT_BUTTON] == 1;
   #else
      return false;
   #endif
