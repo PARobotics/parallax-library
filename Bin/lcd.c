@@ -11,12 +11,6 @@
 #endif
 
 #if USE_LCD == 1
-  /*
-  void lcdGenerateMessage();
-  void lcdSideSelection();
-  void lcdModeSelection();
-  */
-
 
   void waitForPress(){
     while (nLCDButtons == 0){}
